@@ -1,3 +1,4 @@
+using PerfTips.NodeClient.TcpNode;
 using PerfTips.Shared;
 using PerfTips.Shared.Serializer;
 

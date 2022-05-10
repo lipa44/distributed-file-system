@@ -5,7 +5,7 @@ using PerfTips.ServerClient.DataProviders;
 using PerfTips.Shared.Enums;
 using PerfTips.Shared.PackageManager;
 
-namespace PerfTips.ServerClient;
+namespace PerfTips.ServerClient.TcpServer;
 
 public class ServerInstance : IServerInstance
 {

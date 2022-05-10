@@ -1,6 +1,7 @@
 using System.Net;
 using System.Net.Sockets;
 using PerfTips.ServerClient.DataProviders;
+using PerfTips.ServerClient.TcpServer;
 using PerfTips.Shared;
 using PerfTips.Shared.Enums;
 using PerfTips.Shared.PackageManager;

@@ -1,7 +1,7 @@
 using System.Net;
 using PerfTips.Shared.Enums;
 
-namespace PerfTips.ServerClient;
+namespace PerfTips.ServerClient.TcpServer;
 
 public interface IServerInstance
 {

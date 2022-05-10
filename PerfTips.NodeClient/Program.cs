@@ -1,8 +1,8 @@
 ﻿using System.Net;
 using System.Net.Sockets;
 using AutoMapper;
-using PerfTips.NodeClient;
 using PerfTips.NodeClient.Commands;
+using PerfTips.NodeClient.TcpNode;
 using PerfTips.Shared.Enums;
 using PerfTips.Shared.PackageManager;
 using PerfTips.Shared.Serializer;

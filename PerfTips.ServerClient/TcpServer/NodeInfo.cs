@@ -1,4 +1,4 @@
-namespace PerfTips.ServerClient;
+namespace PerfTips.ServerClient.TcpServer;
 
 public class NodeInfo
 {

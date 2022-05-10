@@ -1,6 +1,6 @@
 using System.Net;
 
-namespace PerfTips.NodeClient;
+namespace PerfTips.NodeClient.TcpNode;
 
 public interface ITcpNode
 {

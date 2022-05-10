@@ -5,7 +5,7 @@ using PerfTips.Shared;
 using PerfTips.Shared.Enums;
 using PerfTips.Shared.Serializer;
 
-namespace PerfTips.NodeClient;
+namespace PerfTips.NodeClient.TcpNode;
 
 public class TcpNodeInstance : ITcpNode
 {

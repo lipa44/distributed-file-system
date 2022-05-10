@@ -1,8 +1,8 @@
 ﻿using System.Net;
 using AutoMapper;
-using PerfTips.ServerClient;
 using PerfTips.ServerClient.Commands;
 using PerfTips.ServerClient.DataProviders;
+using PerfTips.ServerClient.TcpServer;
 using PerfTips.Shared.Enums;
 using PerfTips.Shared.PackageManager;
 using PerfTips.Shared.Serializer;
