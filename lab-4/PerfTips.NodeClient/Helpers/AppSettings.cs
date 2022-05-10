@@ -1,9 +1,8 @@
-namespace PerfTips.Shared.Helpers;
+namespace PerfTips.NodeClient.Helpers;
 
 public record AppSettings
 {
-    public string Path { get; init; }
-    public int Port { get; set; }
     public int BufferSize { get; set; }
     public string Server { get; set; }
+    public string RelativePath { get; set; }
 }

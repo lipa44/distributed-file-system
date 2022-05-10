@@ -1,11 +1,9 @@
 ﻿using System.Net;
 using AutoMapper;
-using PerfTips.ServerClient.Commands;
+using PerfTips.ServerClient;
 using PerfTips.ServerClient.DataProviders;
 using PerfTips.ServerClient.TcpServer;
-using PerfTips.Shared.Enums;
 using PerfTips.Shared.PackageManager;
-using PerfTips.Shared.Serializer;
 
 #region Summary
 
@@ -21,48 +19,24 @@ using PerfTips.Shared.Serializer;
 
 #endregion
 
-#region MayBeUsed
+var appSettings = Startup.AppSettings;
 
-// IConfiguration config = new ConfigurationBuilder()
-//     .AddJsonFile("appsettings.json")
-//     .AddEnvironmentVariables()
-//     .Build();
+IDataProvider commandsProvider = Startup.DataProvider;
+IPackageManager packageManager = Startup.PackageManager;
+IMapper mapper = Startup.Mapper;
+
+// var cts = new CancellationTokenSource();
 //
-// var settings = config.GetRequiredSection(nameof(AppSettings)).Get<AppSettings>();
-//
-// Console.WriteLine($"Path = {settings.Path}");
-
-#endregion
-
-const int port = 8888;
-const string server = "127.0.0.1";
-const int bufferSize = 256;
-
-MapperConfiguration mapperConfig = new(cfg =>
-{
-    cfg.CreateMap<ServerCommands, IServerCommand>()
-        .ConvertUsing((value, _) => value switch
-        {
-            ServerCommands.AddFile => new AddFileCommand(),
-            ServerCommands.AddNode => new AddNodeCommand(),
-            ServerCommands.CleanNode => new CleanNodeCommand(),
-            ServerCommands.BalanceNode => new BalanceNodeCommand(),
-            ServerCommands.Exec => new ExecCommand(),
-            ServerCommands.Quit => new QuitCommand(),
-            ServerCommands.GetNodes => new GetNodesCommand(),
-            ServerCommands.RemoveFile => new RemoveFileCommand(),
-            _ => new UnrecognizedCommand(),
-        });
-});
-
-IDataProvider commandsProvider = new ConsoleDataProvider();
-ISerializer serializer = new Utf8Serializer();
-IPackageManager packageManager = new SocketTcpPackageManager(bufferSize, serializer);
-IMapper mapper = mapperConfig.CreateMapper();
+// Console.CancelKeyPress += (s, e) =>
+// {
+//     Console.WriteLine("Canceling...");
+//     cts.Cancel();
+//     e.Cancel = true;
+// };
 
 try
 {
-    ServerInstance serverInstance = new (IPAddress.Parse(server), port, mapper, commandsProvider, packageManager);
+    ServerInstance serverInstance = new (IPAddress.Parse(appSettings.Server), appSettings.Port, mapper, commandsProvider, packageManager);
 
     while (true)
     {
