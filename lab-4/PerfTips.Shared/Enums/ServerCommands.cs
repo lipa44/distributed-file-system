@@ -9,6 +9,5 @@ public enum ServerCommands
     CleanNode,
     BalanceNode,
     GetNodes,
-    Exec,
     Quit,
 }

@@ -33,7 +33,14 @@ public class ServerInstance : IServerInstance
     {
         var serverCommand = _mapper.Map<ServerCommands, IServerCommand>(command);
 
-        await serverCommand.Execute(this, _packageManager, _provider, cts);
+        try
+        {
+            await serverCommand.Execute(this, _packageManager, _provider, cts);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+        }
 
         cts.Token.ThrowIfCancellationRequested();
     }
