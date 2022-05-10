@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net6.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Compile Include="Program.fs" />
+        <Content Include="Task3_Scala\TestJavaMethods.scala" />
+        <Content Include="Task3_Scala\pom.xml" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="RUSSIA" Version="1.4.8.8" />
+    </ItemGroup>
+</Project>

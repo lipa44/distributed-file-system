@@ -1,0 +1,25 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=_002FUsers_002Flipa_002FProgramming_002FRiderProjects_002FTechLabs_002Flab_002D1_002FTask2_005FFSharp_002Fbin_002FDebug_002Fnet6_002E0_002FTask2_005FFSharp_002Edll/@EntryIndexedValue">True</s:Boolean>
+	<s:String x:Key="/Default/Environment/AssemblyExplorer/XmlDocument/@EntryValue">&lt;AssemblyExplorer&gt;
+  &lt;Assembly Path="/Users/lipa/.nuget/packages/fsharp.core/6.0.1/lib/netstandard2.1/FSharp.Core.dll" /&gt;
+&lt;/AssemblyExplorer&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=45a457aa_002Dec56_002D456e_002Da533_002Dc62f2533ea3f/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="AddHugeAmountOfBackupJobsAndSaveToRepository" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;NUnit3x::689C59D8-1624-4722-A321-C056AD8761F2::net6.0::Task5_MoqSystem.Program.AddHugeAmountOfBackupJobsAndSaveToRepository&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=5a038de8_002D3150_002D4db9_002D9933_002De4f9d473b999/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="AddHugeAmountOfBackupJobsAndSaveToRepository #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;NUnit3x::689C59D8-1624-4722-A321-C056AD8761F2::net6.0::Task5_MoqSystem.Program&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	</wpf:ResourceDictionary>

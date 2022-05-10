@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace>Task3_CSharp</RootNamespace>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <PackageIcon>3319ADEB-AD1D-4C0F-A232-602DFDAE3535.jpeg</PackageIcon>
+        <PackageId>RUSSIA</PackageId>
+        <PackageVersion>1.4.8.8</PackageVersion>
+        <Title>RUSSIA! RUSSIA! RUSSIA! RUSSIA!</Title>
+        <Authors>lipa44</Authors>
+        <Description>RUSSIA! RUSSIA! RUSSIA! RUSSIA!</Description>
+        <Copyright>copyleft</Copyright>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <None Update="3319ADEB-AD1D-4C0F-A232-602DFDAE3535.jpeg">
+        <Pack>True</Pack>
+        <PackagePath></PackagePath>
+      </None>
+    </ItemGroup>
+
+</Project>
