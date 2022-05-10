@@ -2,7 +2,7 @@ using PerfTips.Shared.Enums;
 
 namespace PerfTips.ServerClient.DataProviders;
 
-public class ConsoleProvider : IDataProvider
+public class ConsoleDataProvider : IDataProvider
 {
     public ServerCommands GetCommand()
     {

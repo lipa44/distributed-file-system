@@ -1,6 +1,5 @@
 using System.Net;
 using System.Net.Sockets;
-using PerfTips.Shared.Enums;
 using PerfTips.Shared.Serializer;
 
 namespace PerfTips.Shared.PackageManager;
@@ -8,13 +7,17 @@ namespace PerfTips.Shared.PackageManager;
 public class SocketTcpPackageManager : IPackageManager
 {
     private readonly ISerializer _serializer;
+    private readonly int _bufferSize;
 
-    public SocketTcpPackageManager(ISerializer serializer)
+    public SocketTcpPackageManager(int bufferSize, ISerializer serializer)
     {
+        _bufferSize = bufferSize;
         _serializer = serializer;
     }
 
-    public Socket SendPackage<T>(ServerCommands command, T message, IPEndPoint endpoint)
+    public ISerializer Serializer => _serializer;
+
+    public Socket SendPackage<T>(T message, IPEndPoint endpoint)
     {
         var tcpSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
@@ -24,18 +27,16 @@ public class SocketTcpPackageManager : IPackageManager
         return tcpSocket;
     }
 
-    public byte[] ReceivePackage(Socket socket, IPEndPoint endpoint)
+    public byte[] ReceivePackage(Socket socket)
     {
-        const int bufferSize = 256;
-
-        var buffer = new byte[bufferSize];
+        var buffer = new byte[_bufferSize];
         var result = new List<byte>();
 
         do
         {
             var size = socket.Receive(buffer);
 
-            result.AddRange(size < bufferSize ? buffer.Take(size) : buffer);
+            result.AddRange(size < _bufferSize ? buffer.Take(size) : buffer);
         } while (socket.Available > 0);
 
         return result.ToArray();

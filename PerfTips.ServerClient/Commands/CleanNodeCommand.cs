@@ -23,7 +23,7 @@ public class CleanNodeCommand : IServerCommand
         };
 
         var tcpEndPoint = new IPEndPoint(serverInstance.IpAddress, node.Port);
-        var socket = packageManager.SendPackage(message.Command, message, tcpEndPoint);
+        var socket = packageManager.SendPackage(message, tcpEndPoint);
 
         socket.Shutdown(SocketShutdown.Both);
         socket.Close();

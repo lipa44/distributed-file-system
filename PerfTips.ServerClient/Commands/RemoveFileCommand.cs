@@ -25,11 +25,11 @@ public class RemoveFileCommand : IServerCommand
         var message = new TcpMessage
         {
             Command = ServerCommands.RemoveFile,
-            Data = new SystemSerializer().Serialize(removeFileMessage)
+            Data = packageManager.Serializer.Serialize(removeFileMessage)
         };
 
         var tcpEndPoint = new IPEndPoint(serverInstance.IpAddress, node.Port);
-        var socket = packageManager.SendPackage(message.Command, message, tcpEndPoint);
+        var socket = packageManager.SendPackage(message, tcpEndPoint);
 
         socket.Shutdown(SocketShutdown.Both);
         socket.Close();

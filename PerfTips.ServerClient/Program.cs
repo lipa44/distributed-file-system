@@ -36,6 +36,7 @@ using PerfTips.Shared.Serializer;
 
 const int port = 8888;
 const string server = "127.0.0.1";
+const int bufferSize = 256;
 
 MapperConfiguration mapperConfig = new(cfg =>
 {
@@ -54,9 +55,9 @@ MapperConfiguration mapperConfig = new(cfg =>
         });
 });
 
-IDataProvider commandsProvider = new ConsoleProvider();
+IDataProvider commandsProvider = new ConsoleDataProvider();
 ISerializer serializer = new Utf8Serializer();
-IPackageManager packageManager = new SocketTcpPackageManager(serializer);
+IPackageManager packageManager = new SocketTcpPackageManager(bufferSize, serializer);
 IMapper mapper = mapperConfig.CreateMapper();
 
 try

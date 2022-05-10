@@ -31,11 +31,11 @@ public class AddFileCommand : IServerCommand
         var message = new TcpMessage
         {
             Command = ServerCommands.AddFile,
-            Data = new SystemSerializer().Serialize(addFileMessage)
+            Data = packageManager.Serializer.Serialize(addFileMessage)
         };
 
         var tcpEndPoint = new IPEndPoint(serverInstance.IpAddress, node.Port);
-        var socket = packageManager.SendPackage(ServerCommands.AddFile, message, tcpEndPoint);
+        var socket = packageManager.SendPackage(message, tcpEndPoint);
 
         socket.Shutdown(SocketShutdown.Both);
         socket.Close();

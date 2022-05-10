@@ -9,6 +9,7 @@ using PerfTips.Shared.Serializer;
 
 const string server = "127.0.0.1";
 const string relativePath = "/Users/lipa/Desktop/Nodes";
+const int bufferSize = 256;
 
 MapperConfiguration mapperConfig = new(cfg =>
 {
@@ -34,10 +35,10 @@ Console.WriteLine($"Endpoint started listening at: {server}:{port}");
 socket.Listen(); // Turning socket into waiting (listening) mode
 
 ISerializer serializer = new Utf8Serializer();
-IPackageManager packageManager = new SocketTcpPackageManager(serializer);
+IPackageManager packageManager = new SocketTcpPackageManager(bufferSize, serializer);
 IMapper mapper = mapperConfig.CreateMapper();
 
-TcpNodeInstance nodeInstance = new(relativePath, IPAddress.Parse(server), port, mapper, serializer);
+TcpNodeInstance nodeInstance = new (relativePath, IPAddress.Parse(server), port, mapper, serializer);
 
 try
 {
@@ -46,7 +47,7 @@ try
         /* Creating listener for our socket  */
         var listener = await socket.AcceptAsync();
 
-        var package = packageManager.ReceivePackage(listener, tcpEndPoint);
+        var package = packageManager.ReceivePackage(listener);
 
         await nodeInstance.Execute(package, new CancellationTokenSource());
     }
