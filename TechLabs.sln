@@ -1,6 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lab-1", "lab-1", "{9FA52A4D-F5B5-4084-938D-29F16E06D808}"
+	ProjectSection(SolutionItems) = preProject
+		lab-1\README.md = lab-1\README.md
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lab-2", "lab-2", "{7BB15122-B041-42D4-B04F-86AF87925269}"
 	ProjectSection(SolutionItems) = preProject
