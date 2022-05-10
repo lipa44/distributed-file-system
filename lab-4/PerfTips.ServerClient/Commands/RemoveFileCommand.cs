@@ -19,7 +19,10 @@ public class RemoveFileCommand : IServerCommand
 
         var node = serverInstance.GetNodeInfo(nodeName);
 
-        RemoveFileMessage removeFileMessage = new (Path.Combine(fileFullPath));
+        var fileInfo = new FileInfo(fileFullPath);
+        node.RemoveBytes(fileInfo.Length);
+
+        RemoveFileMessage removeFileMessage = new (fileInfo.FullName);
 
         var message = new TcpMessage
         {

@@ -26,7 +26,6 @@ public static class Startup
                 ServerCommands.AddNode => new AddNodeCommand(),
                 ServerCommands.CleanNode => new CleanNodeCommand(),
                 ServerCommands.BalanceNode => new BalanceNodeCommand(),
-                ServerCommands.Exec => new ExecCommand(),
                 ServerCommands.Quit => new QuitCommand(),
                 ServerCommands.GetNodes => new GetNodesCommand(),
                 ServerCommands.RemoveFile => new RemoveFileCommand(),
@@ -35,7 +34,7 @@ public static class Startup
     }).CreateMapper();
     
     public static readonly IDataProvider DataProvider = new SpectreConsoleDataProvider();
-    
+
     public static readonly ISerializer Serializer = new Utf8Serializer();
 
     public static readonly IPackageManager PackageManager = new SocketTcpPackageManager(AppSettings.BufferSize, Serializer);

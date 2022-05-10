@@ -7,11 +7,24 @@ public class NodeInfo
         Name = name;
         Port = port;
         MaxSize = maxSize;
+        SizeAvailable = maxSize;
     }
 
-    public string Name { get; init; }
-    public int Port { get; init; }
-    public int MaxSize { get; init; }
+    public string Name { get; }
+    public int Port { get; }
+    public long MaxSize { get; }
+    public long SizeAvailable { get; private set; }
+    public void AddBytes(long bytesAmount)
+    {
+        if (!IfEnoughSpaceToAdd(bytesAmount))
+            throw new Exception("Not enough space to add file");
+
+        SizeAvailable -= bytesAmount;
+    }
+
+    public void RemoveBytes(long bytesAmount) => SizeAvailable += bytesAmount;
+
+    public bool IfEnoughSpaceToAdd(long bytesAmount) => SizeAvailable > bytesAmount;
 
     public override string ToString() => $"{Name} <--> ...:{Port}";
     public override bool Equals(object? obj) => Equals(obj as NodeInfo);

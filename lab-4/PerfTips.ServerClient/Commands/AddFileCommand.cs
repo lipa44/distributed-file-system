@@ -23,6 +23,7 @@ public class AddFileCommand : IServerCommand
         var node = serverInstance.GetNodeInfo(nodeName);
 
         var fileInfo = new FileInfo(filePath);
+        node.AddBytes(fileInfo.Length);
 
         var bytes = await File.ReadAllBytesAsync(filePath);
         AddFileMessage addFileMessage = new (Path.Combine(nodeName, fileRelativePath, fileInfo.Name), bytes);
