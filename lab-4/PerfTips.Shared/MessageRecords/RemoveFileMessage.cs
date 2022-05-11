@@ -3,10 +3,10 @@ namespace PerfTips.Shared.MessageRecords;
 [Serializable]
 public class RemoveFileMessage
 {
-    public RemoveFileMessage(string fullPath)
+    public RemoveFileMessage(string relativePath)
     {
-        FullPath = fullPath;
+        RelativePath = relativePath;
     }
 
-    public string FullPath { get; set; }
+    public string RelativePath { get; set; }
 }

@@ -5,6 +5,7 @@ namespace PerfTips.Shared;
 [Serializable]
 public class TcpMessage
 {
+    public int Port { get; init; }
     public ServerCommands Command { get; init; }
     public byte[] Data { get; init; }
 }

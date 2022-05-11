@@ -23,7 +23,7 @@ public class NodeInfo
     }
 
     public void RemoveBytes(long bytesAmount) => SizeAvailable += bytesAmount;
-
+    public void CleanNode() => SizeAvailable = MaxSize;
     public bool IfEnoughSpaceToAdd(long bytesAmount) => SizeAvailable > bytesAmount;
 
     public override string ToString() => $"{Name} <--> ...:{Port}";

@@ -1,18 +1,23 @@
+using System.Net.Sockets;
 using PerfTips.NodeClient.TcpNode;
 using PerfTips.Shared;
 using PerfTips.Shared.MessageRecords;
-using PerfTips.Shared.Serializer;
+using PerfTips.Shared.PackageManager;
 
 namespace PerfTips.NodeClient.Commands;
 
 public class AddFileCommand : INodeCommand
 {
-    public async Task Execute(ITcpNode node, TcpMessage tcpMessage, ISerializer serializer, CancellationTokenSource cts)
+    public async Task Execute(ITcpNode node, TcpMessage tcpMessage, Socket socket, IPackageManager packageManager, CancellationTokenSource cts)
     {
-        var addFileMessage = serializer.Deserialize<AddFileMessage>(tcpMessage.Data);
+        var addFileMessage = packageManager.Serializer.Deserialize<FileMessage>(tcpMessage.Data);
 
-        var fileInfo = new FileInfo(Path.Combine(node.RelativePath, addFileMessage.PartialPath));
+        var fileDescriptor = new FileDescriptor
+        {
+            FilePath = addFileMessage.PartialPath,
+            FileInfo = new FileInfo(Path.Combine(node.RelativePath, addFileMessage.PartialPath))
+        };
 
-        await node.AddFile(fileInfo, addFileMessage.FileData);
+        await node.AddFile(fileDescriptor, addFileMessage.FileData);
     }
 }
