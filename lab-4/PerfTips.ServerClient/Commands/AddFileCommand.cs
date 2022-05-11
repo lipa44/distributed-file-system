@@ -26,12 +26,12 @@ public class AddFileCommand : IServerCommand
         node.AddBytes(fileInfo.Length);
 
         var bytes = await File.ReadAllBytesAsync(filePath);
-        AddFileMessage addFileMessage = new (Path.Combine(nodeName, fileRelativePath, fileInfo.Name), bytes);
+        FileMessage fileMessage = new (Path.Combine(nodeName, fileRelativePath, fileInfo.Name), bytes);
 
         var message = new TcpMessage
         {
             Command = ServerCommands.AddFile,
-            Data = packageManager.Serializer.Serialize(addFileMessage)
+            Data = packageManager.Serializer.Serialize(fileMessage)
         };
 
         var tcpEndPoint = new IPEndPoint(serverInstance.IpAddress, node.Port);

@@ -1,19 +1,24 @@
+using System.Net.Sockets;
 using PerfTips.NodeClient.TcpNode;
 using PerfTips.Shared;
 using PerfTips.Shared.MessageRecords;
-using PerfTips.Shared.Serializer;
+using PerfTips.Shared.PackageManager;
 
 namespace PerfTips.NodeClient.Commands;
 
 public class RemoveFileCommand : INodeCommand
 {
-    public Task Execute(ITcpNode node, TcpMessage tcpMessage, ISerializer serializer, CancellationTokenSource cts)
+    public Task Execute(ITcpNode node, TcpMessage tcpMessage, Socket socket, IPackageManager packageManager, CancellationTokenSource cts)
     {
-        var addFileMessage = serializer.Deserialize<RemoveFileMessage>(tcpMessage.Data);
+        var addFileMessage = packageManager.Serializer.Deserialize<RemoveFileMessage>(tcpMessage.Data);
 
-        var fileInfo = new FileInfo(Path.Combine(addFileMessage.FullPath));
+        var fileDescriptor = new FileDescriptor
+        {
+            FilePath = addFileMessage.RelativePath,
+            FileInfo = new FileInfo(Path.Combine(node.RelativePath, addFileMessage.RelativePath))
+        };
 
-        node.RemoveFile(fileInfo);
+        node.RemoveFile(fileDescriptor);
 
         return Task.CompletedTask;
     }

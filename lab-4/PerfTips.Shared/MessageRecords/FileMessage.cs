@@ -1,9 +1,9 @@
 namespace PerfTips.Shared.MessageRecords;
 
 [Serializable]
-public class AddFileMessage
+public class FileMessage
 {
-    public AddFileMessage(string partialPath, byte[] fileData)
+    public FileMessage(string partialPath, byte[] fileData)
     {
         PartialPath = partialPath;
         FileData = fileData;

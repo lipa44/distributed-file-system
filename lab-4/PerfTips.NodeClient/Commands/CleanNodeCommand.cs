@@ -1,16 +1,32 @@
+using System.Net.Sockets;
 using PerfTips.NodeClient.TcpNode;
 using PerfTips.Shared;
-using PerfTips.Shared.Serializer;
+using PerfTips.Shared.MessageRecords;
+using PerfTips.Shared.PackageManager;
 
 namespace PerfTips.NodeClient.Commands;
 
 public class CleanNodeCommand : INodeCommand
 {
-    public Task Execute(ITcpNode node, TcpMessage tcpMessage, ISerializer serializer, CancellationTokenSource cts)
+    public async Task Execute(ITcpNode node, TcpMessage tcpMessage, Socket socket, IPackageManager packageManager, CancellationTokenSource cts)
     {
-        foreach (var file in new List<FileInfo>(node.Files))
-            node.RemoveFile(file);
+        var filesToSend = new List<FileMessage>();
+        
+        foreach (var fileDescriptor in new List<FileDescriptor>(node.Files))
+        {
+            var fileBytes = await File.ReadAllBytesAsync(fileDescriptor.FileInfo.FullName);
+            filesToSend.Add(new (fileDescriptor.FilePath, fileBytes));
 
-        return Task.CompletedTask;
+            node.RemoveFile(fileDescriptor);
+        }
+
+        var message = new TcpMessage
+        {
+            Data = packageManager.Serializer.Serialize(filesToSend)
+        };
+
+        socket.Send(packageManager.Serializer.Serialize(message));
+
+        Console.WriteLine("Node cleaned");
     }
 }

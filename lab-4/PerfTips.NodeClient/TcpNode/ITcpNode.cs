@@ -1,16 +1,17 @@
 using System.Net;
+using System.Net.Sockets;
 
 namespace PerfTips.NodeClient.TcpNode;
 
 public interface ITcpNode
 {
-    Task Execute(byte[] package, CancellationTokenSource cts);
+    Task Execute(Socket socket, byte[] package, CancellationTokenSource cts);
 
-    Task AddFile(FileInfo fileInfo, byte[] bytes);
-    void RemoveFile(FileInfo fileInfo);
+    Task AddFile(FileDescriptor fileDescriptor, byte[] bytes);
+    void RemoveFile(FileDescriptor fileDescriptor);
 
     public string RelativePath { get; init; }
     public IPAddress IpAddress { get; init; }
     public int Port { get; init; }
-    public IReadOnlyList<FileInfo> Files { get; }
+    public IReadOnlyList<FileDescriptor> Files { get; }
 }

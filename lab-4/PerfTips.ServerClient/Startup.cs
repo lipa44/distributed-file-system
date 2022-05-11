@@ -32,8 +32,8 @@ public static class Startup
                 _ => new UnrecognizedCommand(),
             });
     }).CreateMapper();
-    
-    public static readonly IDataProvider DataProvider = new SpectreConsoleDataProvider();
+
+    public static readonly IDataProvider DataProvider = new FileDataProvider("/Users/lipa/Desktop/Commands1.txt");
 
     public static readonly ISerializer Serializer = new Utf8Serializer();
 

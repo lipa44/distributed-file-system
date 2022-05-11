@@ -1,61 +1,68 @@
 using System.Net;
+using System.Net.Sockets;
 using AutoMapper;
 using PerfTips.NodeClient.Commands;
 using PerfTips.Shared;
 using PerfTips.Shared.Enums;
-using PerfTips.Shared.Serializer;
+using PerfTips.Shared.PackageManager;
 
 namespace PerfTips.NodeClient.TcpNode;
 
 public class TcpNodeInstance : ITcpNode
 {
     private readonly IMapper _mapper;
-    private readonly ISerializer _serializer;
-    private readonly List<FileInfo> _files = new();
+    private readonly IPackageManager _packageManager;
+    private readonly List<FileDescriptor> _files = new();
     
-    public TcpNodeInstance(string relativePath, IPAddress ip, int port, IMapper mapper, ISerializer serializer)
+    public TcpNodeInstance(string relativePath, IPAddress ip, int port, IMapper mapper, IPackageManager packageManager)
     {
         RelativePath = relativePath;
         IpAddress = ip;
         Port = port;
         _mapper = mapper;
-        _serializer = serializer;
+        _packageManager = packageManager;
     }
 
     public string RelativePath { get; init; }
     public IPAddress IpAddress { get; init; }
     public int Port { get; init; }
-    public IReadOnlyList<FileInfo> Files => _files;
+    public IReadOnlyList<FileDescriptor> Files => _files;
 
-    public async Task Execute(byte[] package, CancellationTokenSource cts)
+    public async Task Execute(Socket socket, byte[] package, CancellationTokenSource cts)
     {
-        var packageMessage = _serializer.Deserialize<TcpMessage>(package);
+        var packageMessage = _packageManager.Serializer.Deserialize<TcpMessage>(package);
 
         var nodeCommand = _mapper.Map<ServerCommands, INodeCommand>(packageMessage.Command);
 
-        await nodeCommand.Execute(this, packageMessage, _serializer, cts);
+        await nodeCommand.Execute(this, packageMessage, socket, _packageManager, cts);
 
         cts.Token.ThrowIfCancellationRequested();
     }
 
-    public async Task AddFile(FileInfo fileInfo, byte[] bytes)
+    public async Task AddFile(FileDescriptor fileDescriptor, byte[] bytes)
     {
-        if (IfFileExists(fileInfo)) throw new Exception("File to add to node already exists");
+        if (IfFileExists(fileDescriptor)) throw new Exception("File to add to node already exists");
 
-        _files.Add(fileInfo);
-        
+        _files.Add(fileDescriptor);
+
+        var fileInfo = new FileInfo(fileDescriptor.FileInfo.FullName);
+
         fileInfo.Directory?.Create();
         await File.WriteAllBytesAsync(fileInfo.FullName, bytes);
+
+        Console.WriteLine($"File {fileInfo} added");
     }
 
-    public void RemoveFile(FileInfo fileInfo)
+    public void RemoveFile(FileDescriptor fileDescriptor)
     {
-        if (!IfFileExists(fileInfo)) throw new Exception("File to remove from node doesn't exist");
+        if (!IfFileExists(fileDescriptor)) throw new Exception("File to remove from node doesn't exist");
 
-        File.Delete(fileInfo.FullName);
-        
-        _files.Remove(fileInfo);
+        File.Delete(fileDescriptor.FileInfo.FullName);
+
+        _files.Remove(fileDescriptor);
+
+        Console.WriteLine($"File {fileDescriptor.FilePath} removed");
     }
     
-    private bool IfFileExists(FileInfo fileInfo) => _files.Any(n => n.Equals(fileInfo));
+    private bool IfFileExists(FileDescriptor filePath) => _files.Any(n => n.Equals(filePath));
 }

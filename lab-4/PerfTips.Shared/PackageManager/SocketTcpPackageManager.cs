@@ -27,16 +27,39 @@ public class SocketTcpPackageManager : IPackageManager
         return tcpSocket;
     }
 
-    public byte[] ReceivePackage(Socket socket)
+    public async Task<byte[]> ReceivePackage(IPEndPoint ipEndPoint)
+    {
+        var socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+
+        socket.Bind(ipEndPoint);
+        socket.Listen();
+
+        var listener = await socket.AcceptAsync();
+        var buffer = new byte[_bufferSize];
+        var result = new List<byte>();
+
+        do
+        {
+            var size = listener.Receive(buffer);
+            result.AddRange(size < _bufferSize ? buffer.Take(size) : buffer);
+        } while (listener.Available > 0);
+
+        listener.Shutdown(SocketShutdown.Both);
+        listener.Close();
+
+        return result.ToArray();
+    }
+
+    public byte[] ReceivePackage(Socket listener)
     {
         var buffer = new byte[_bufferSize];
         var result = new List<byte>();
 
         do
         {
-            var size = socket.Receive(buffer);
+            var size = listener.Receive(buffer);
             result.AddRange(size < _bufferSize ? buffer.Take(size) : buffer);
-        } while (socket.Available > 0);
+        } while (listener.Available > 0);
 
         return result.ToArray();
     }

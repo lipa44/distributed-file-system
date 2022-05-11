@@ -4,7 +4,6 @@ using AutoMapper;
 using PerfTips.NodeClient;
 using PerfTips.NodeClient.TcpNode;
 using PerfTips.Shared.PackageManager;
-using PerfTips.Shared.Serializer;
 
 var appSettings = Startup.AppSettings;
 string server = appSettings.Server;
@@ -20,11 +19,10 @@ socket.Bind(tcpEndPoint);
 Console.WriteLine($"Endpoint started listening at: {server}:{port}");
 socket.Listen();
 
-ISerializer serializer = Startup.Serializer;
 IPackageManager packageManager = Startup.PackageManager;
 IMapper mapper = Startup.Mapper;
 
-TcpNodeInstance nodeInstance = new (appSettings.RelativePath, IPAddress.Parse(server), port, mapper, serializer);
+TcpNodeInstance nodeInstance = new (appSettings.RelativePath, IPAddress.Parse(server), port, mapper, packageManager);
 
 try
 {
@@ -35,7 +33,7 @@ try
 
         var package = packageManager.ReceivePackage(listener);
 
-        await nodeInstance.Execute(package, new CancellationTokenSource());
+        await nodeInstance.Execute(listener, package, new CancellationTokenSource());
     }
 }
 catch (OperationCanceledException)

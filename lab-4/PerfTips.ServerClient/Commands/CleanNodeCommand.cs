@@ -1,5 +1,4 @@
 using System.Net;
-using System.Net.Sockets;
 using PerfTips.ServerClient.DataProviders;
 using PerfTips.ServerClient.TcpServer;
 using PerfTips.Shared;
@@ -19,14 +18,12 @@ public class CleanNodeCommand : IServerCommand
 
         var message = new TcpMessage
         {
+            Port = serverInstance.Port,
             Command = ServerCommands.CleanNode,
         };
 
         var tcpEndPoint = new IPEndPoint(serverInstance.IpAddress, node.Port);
-        var socket = packageManager.SendPackage(message, tcpEndPoint);
-
-        socket.Shutdown(SocketShutdown.Both);
-        socket.Close();
+        packageManager.SendPackage(message, tcpEndPoint);
 
         return Task.CompletedTask;
     }
