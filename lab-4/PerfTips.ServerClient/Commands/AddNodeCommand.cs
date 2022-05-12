@@ -9,9 +9,9 @@ public class AddNodeCommand : IServerCommand
     public Task Execute(ServerInstance serverInstance, IPackageManager packageManager, IDataProvider dataProvider,
         CancellationTokenSource token)
     {
-        var name = dataProvider.AskForData("Name: ");
-        var port = int.Parse(dataProvider.AskForData("Port: "));
-        var size = int.Parse(dataProvider.AskForData("MaxSize: "));
+        var name = dataProvider.AskData("Name: ");
+        var port = int.Parse(dataProvider.AskData("Port: "));
+        var size = int.Parse(dataProvider.AskData("MaxSize: "));
 
         var tcpNode = new NodeInfo(name, port, size);
 

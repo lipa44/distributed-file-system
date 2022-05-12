@@ -5,5 +5,5 @@ namespace PerfTips.ServerClient.DataProviders;
 public interface IDataProvider
 {
     ServerCommands GetCommand();
-    public string AskForData(string message);
+    public string AskData(string message);
 }

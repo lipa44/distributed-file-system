@@ -29,7 +29,7 @@ public class FileDataProvider : IDataProvider
         return serverCommand;
     }
 
-    public string AskForData(string message) => _currentArguments.Dequeue();
+    public string AskData(string message) => _currentArguments.Dequeue();
 
     private void ParseFileToCommands()
     {

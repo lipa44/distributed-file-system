@@ -1,4 +1,3 @@
-using System.Net;
 using System.Net.Sockets;
 using PerfTips.ServerClient.DataProviders;
 using PerfTips.ServerClient.TcpServer;
@@ -45,7 +44,11 @@ public class BalanceNodeCommand : IServerCommand
             Console.WriteLine($"Less loaded node: {node.Name}; File size: {file.FileData.Length}");
             node.AddBytes(file.FileData.Length);
 
-            FileMessage fileMessage = new (Path.Combine(node.Name, file.PartialPath), file.FileData);
+            FileMessage fileMessage = new FileMessage
+            {
+                PartialPath = Path.Combine(node.Name, file.PartialPath),
+                FileData = file.FileData
+            };
 
             var message = new TcpMessage
             {

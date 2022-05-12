@@ -16,5 +16,5 @@ public class SpectreConsoleDataProvider : IDataProvider
                 .UseConverter(command => $"* {command}")
                 .AddChoices(_commands));
 
-    public string AskForData(string message) => AnsiConsole.Ask<string>(message);
+    public string AskData(string message) => AnsiConsole.Ask<string>(message);
 }
