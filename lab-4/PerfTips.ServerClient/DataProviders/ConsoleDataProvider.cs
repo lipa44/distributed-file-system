@@ -11,7 +11,7 @@ public class ConsoleDataProvider : IDataProvider
         return command;
     }
 
-    public string AskForData(string message)
+    public string AskData(string message)
     {
         Console.Write(message);
 

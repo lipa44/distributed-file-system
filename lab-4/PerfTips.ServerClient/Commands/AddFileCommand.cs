@@ -1,4 +1,3 @@
-using System.Net;
 using System.Net.Sockets;
 using PerfTips.ServerClient.DataProviders;
 using PerfTips.ServerClient.TcpServer;
@@ -14,9 +13,9 @@ public class AddFileCommand : IServerCommand
     public async Task Execute(ServerInstance serverInstance, IPackageManager packageManager, IDataProvider dataProvider,
         CancellationTokenSource token)
     {
-        var filePath = dataProvider.AskForData("File path (absolute): ");
-        var nodeName = dataProvider.AskForData("Node name to add file: ");
-        var fileRelativePath = dataProvider.AskForData($"File relative path on node {nodeName}: ");
+        var filePath = dataProvider.AskData("File path (absolute): ");
+        var nodeName = dataProvider.AskData("Node name to add file: ");
+        var fileRelativePath = dataProvider.AskData($"File relative path on node {nodeName}: ");
 
         var node = serverInstance.GetNodeInfo(nodeName);
 
@@ -24,7 +23,12 @@ public class AddFileCommand : IServerCommand
         node.AddBytes(fileInfo.Length);
 
         var bytes = await File.ReadAllBytesAsync(filePath);
-        FileMessage fileMessage = new (Path.Combine(nodeName, fileRelativePath, fileInfo.Name), bytes);
+
+        FileMessage fileMessage = new FileMessage
+        {
+            PartialPath = Path.Combine(nodeName, fileRelativePath, fileInfo.Name),
+            FileData = bytes
+        };
 
         var message = new TcpMessage
         {

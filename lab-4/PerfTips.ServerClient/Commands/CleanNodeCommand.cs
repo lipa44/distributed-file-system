@@ -1,4 +1,3 @@
-using System.Net;
 using PerfTips.ServerClient.DataProviders;
 using PerfTips.ServerClient.TcpServer;
 using PerfTips.Shared;
@@ -12,7 +11,7 @@ public class CleanNodeCommand : IServerCommand
     public Task Execute(ServerInstance serverInstance, IPackageManager packageManager, IDataProvider dataProvider,
         CancellationTokenSource token)
     {
-        var nodeName = dataProvider.AskForData("Node name to clean: ");
+        var nodeName = dataProvider.AskData("Node name to clean: ");
 
         var node = serverInstance.GetNodeInfo(nodeName);
 

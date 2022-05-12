@@ -1,4 +1,3 @@
-using System.Net;
 using System.Net.Sockets;
 using PerfTips.ServerClient.DataProviders;
 using PerfTips.ServerClient.TcpServer;
@@ -14,15 +13,15 @@ public class RemoveFileCommand : IServerCommand
     public Task Execute(ServerInstance serverInstance, IPackageManager packageManager, IDataProvider dataProvider,
         CancellationTokenSource token)
     {
-        var nodeName = dataProvider.AskForData("Node name to add file: ");
-        var fileFullPath = dataProvider.AskForData($"File full path on node {nodeName}: ");
+        var nodeName = dataProvider.AskData("Node name to add file: ");
+        var fileFullPath = dataProvider.AskData($"File relative path on node {nodeName}: ");
 
         var node = serverInstance.GetNodeInfo(nodeName);
 
         var fileInfo = new FileInfo(fileFullPath);
         node.RemoveBytes(fileInfo.Length);
 
-        RemoveFileMessage removeFileMessage = new (fileInfo.FullName);
+        FileMessage removeFileMessage = new () { PartialPath = fileInfo.FullName };
 
         var message = new TcpMessage
         {
