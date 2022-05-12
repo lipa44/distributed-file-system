@@ -4,8 +4,8 @@ namespace PerfTips.ServerClient.DataProviders;
 
 public class FileDataProvider : IDataProvider
 {
-    private readonly List<Command> _commands = new();
-    private string[] _currentArguments;
+    private readonly Queue<Command> _commands = new();
+    private Queue<string> _currentArguments = new();
 
     public FileDataProvider(string filePath)
     {
@@ -21,44 +21,35 @@ public class FileDataProvider : IDataProvider
         if (!_commands.Any())
             return ServerCommands.Quit;
 
-        var command = _commands.FirstOrDefault();
-        _currentArguments = command?.Arguments ?? Array.Empty<string>();
-        _commands.RemoveAt(0);
+        var command = _commands.Dequeue();
+        _currentArguments = command.Arguments;
 
-        Enum.TryParse<ServerCommands>(command?.Name ?? string.Empty, out var serverCommand);
+        Enum.TryParse<ServerCommands>(command.Name, out var serverCommand);
 
         return serverCommand;
     }
 
-    public string AskForData(string message)
-    {
-        var argument = _currentArguments.FirstOrDefault();
-        _currentArguments = _currentArguments.Skip(1).ToArray();
-
-        return argument;
-    }
+    public string AskForData(string message) => _currentArguments.Dequeue();
 
     private void ParseFileToCommands()
     {
         foreach (var commandString in File.ReadAllLines(FilePath))
         {
-            var commandWithArgs = commandString.Split(" ");
+            var commandWithArgs = new Queue<string>(commandString.Split(" "));
 
-            _commands.Add(new Command(
-                name: commandWithArgs.FirstOrDefault(),
-                arguments: commandWithArgs.Skip(1).ToArray()));
+            _commands.Enqueue(new(commandWithArgs.Dequeue(), commandWithArgs));
         }
     }
 
     private class Command
     {
-        public Command(string name, params string[] arguments)
+        public Command(string name, Queue<string> arguments)
         {
             Name = name;
             Arguments = arguments;
         }
 
-        public string? Name { get; }
-        public string[] Arguments { get; }
+        public string Name { get; }
+        public Queue<string> Arguments { get; }
     }
 }

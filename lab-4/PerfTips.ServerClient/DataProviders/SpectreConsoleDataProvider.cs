@@ -13,6 +13,7 @@ public class SpectreConsoleDataProvider : IDataProvider
             new SelectionPrompt<ServerCommands>()
                 .Title("Choose one of the following [green]command[/].")
                 .PageSize(_commands.Count())
+                .UseConverter(command => $"* {command}")
                 .AddChoices(_commands));
 
     public string AskForData(string message) => AnsiConsole.Ask<string>(message);
