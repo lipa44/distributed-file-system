@@ -22,11 +22,10 @@ public class BalanceNodeCommand : IServerCommand
             var message = new TcpMessage
             {
                 Port = serverInstance.Port,
-                Command = ServerCommands.CleanNode,
+                Command = NodeCommands.CleanNode,
             };
 
-            var tcpEndPoint = new IPEndPoint(serverInstance.IpAddress, node.Port);
-            var socket = packageManager.SendPackage(message, tcpEndPoint);
+            var socket = packageManager.SendPackage(message, new (serverInstance.IpAddress, node.Port));
 
             var package = packageManager.ReceivePackage(socket);
 
@@ -50,12 +49,11 @@ public class BalanceNodeCommand : IServerCommand
 
             var message = new TcpMessage
             {
-                Command = ServerCommands.AddFile,
+                Command = NodeCommands.AddFile,
                 Data = packageManager.Serializer.Serialize(fileMessage)
             };
 
-            var tcpEndPoint = new IPEndPoint(serverInstance.IpAddress, node.Port);
-            packageManager.SendPackage(message, tcpEndPoint);
+            packageManager.SendPackage(message, new (serverInstance.IpAddress, node.Port));
         }
     }
 

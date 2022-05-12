@@ -32,7 +32,7 @@ public class TcpNodeInstance : ITcpNode
     {
         var packageMessage = _packageManager.Serializer.Deserialize<TcpMessage>(package);
 
-        var nodeCommand = _mapper.Map<ServerCommands, INodeCommand>(packageMessage.Command);
+        var nodeCommand = _mapper.Map<NodeCommands, INodeCommand>(packageMessage.Command);
 
         await nodeCommand.Execute(this, packageMessage, socket, _packageManager, cts);
 

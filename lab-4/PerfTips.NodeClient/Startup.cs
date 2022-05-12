@@ -17,12 +17,12 @@ public static class Startup
 
     public static readonly IMapper Mapper = new MapperConfiguration(cfg =>
     {
-        cfg.CreateMap<ServerCommands, INodeCommand>()
+        cfg.CreateMap<NodeCommands, INodeCommand>()
             .ConvertUsing((value, _) => value switch
             {
-                ServerCommands.AddFile => new AddFileCommand(),
-                ServerCommands.RemoveFile => new RemoveFileCommand(),
-                ServerCommands.CleanNode => new CleanNodeCommand(),
+                NodeCommands.AddFile => new AddFileCommand(),
+                NodeCommands.RemoveFile => new RemoveFileCommand(),
+                NodeCommands.CleanNode => new CleanNodeCommand(),
                 _ => new UnrecognizedCommand(),
             });
     }).CreateMapper();

@@ -14,8 +14,6 @@ public class AddFileCommand : IServerCommand
     public async Task Execute(ServerInstance serverInstance, IPackageManager packageManager, IDataProvider dataProvider,
         CancellationTokenSource token)
     {
-        // /Users/lipa/Desktop/test.md
-
         var filePath = dataProvider.AskForData("File path (absolute): ");
         var nodeName = dataProvider.AskForData("Node name to add file: ");
         var fileRelativePath = dataProvider.AskForData($"File relative path on node {nodeName}: ");
@@ -30,12 +28,11 @@ public class AddFileCommand : IServerCommand
 
         var message = new TcpMessage
         {
-            Command = ServerCommands.AddFile,
+            Command = NodeCommands.AddFile,
             Data = packageManager.Serializer.Serialize(fileMessage)
         };
 
-        var tcpEndPoint = new IPEndPoint(serverInstance.IpAddress, node.Port);
-        var socket = packageManager.SendPackage(message, tcpEndPoint);
+        var socket = packageManager.SendPackage(message, new (serverInstance.IpAddress, node.Port));
 
         socket.Shutdown(SocketShutdown.Both);
         socket.Close();

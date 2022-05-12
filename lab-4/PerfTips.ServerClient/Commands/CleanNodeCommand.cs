@@ -19,11 +19,10 @@ public class CleanNodeCommand : IServerCommand
         var message = new TcpMessage
         {
             Port = serverInstance.Port,
-            Command = ServerCommands.CleanNode,
+            Command = NodeCommands.CleanNode,
         };
 
-        var tcpEndPoint = new IPEndPoint(serverInstance.IpAddress, node.Port);
-        packageManager.SendPackage(message, tcpEndPoint);
+        packageManager.SendPackage(message, new (serverInstance.IpAddress, node.Port));
 
         return Task.CompletedTask;
     }

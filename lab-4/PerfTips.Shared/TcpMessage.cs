@@ -6,6 +6,6 @@ namespace PerfTips.Shared;
 public class TcpMessage
 {
     public int Port { get; init; }
-    public ServerCommands Command { get; init; }
+    public NodeCommands Command { get; init; }
     public byte[] Data { get; init; }
 }
