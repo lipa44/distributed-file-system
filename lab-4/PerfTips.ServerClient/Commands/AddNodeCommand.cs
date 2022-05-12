@@ -9,10 +9,7 @@ public class AddNodeCommand : IServerCommand
     public Task Execute(ServerInstance serverInstance, IPackageManager packageManager, IDataProvider dataProvider,
         CancellationTokenSource token)
     {
-        Console.WriteLine("***Enter node's info***");
-
         var name = dataProvider.AskForData("Name: ");
-
         var port = int.Parse(dataProvider.AskForData("Port: "));
         var size = int.Parse(dataProvider.AskForData("MaxSize: "));
 

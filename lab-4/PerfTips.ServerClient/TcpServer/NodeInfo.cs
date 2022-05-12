@@ -14,6 +14,7 @@ public class NodeInfo
     public int Port { get; }
     public long MaxSize { get; }
     public long SizeAvailable { get; private set; }
+
     public void AddBytes(long bytesAmount)
     {
         if (!IfEnoughSpaceToAdd(bytesAmount))
