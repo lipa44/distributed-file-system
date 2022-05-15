@@ -6,7 +6,7 @@ namespace PerfTips.ServerClient.Commands;
 
 public class UnrecognizedCommand : IServerCommand
 {
-    public Task Execute(ServerInstance serverInstance, IPackageManager packageManager, IDataProvider dataProvider,
+    public Task Execute(Server server, IPackageManager packageManager, IDataProvider dataProvider,
         CancellationTokenSource token)
     {
         Console.WriteLine("Unrecognized command");

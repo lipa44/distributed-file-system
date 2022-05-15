@@ -8,13 +8,13 @@ using PerfTips.Shared.PackageManager;
 
 namespace PerfTips.NodeClient.TcpNode;
 
-public class TcpNodeInstance : ITcpNode
+public class TcpNode : ITcpNode
 {
     private readonly IMapper _mapper;
     private readonly IPackageManager _packageManager;
     private readonly List<FileDescriptor> _files = new();
     
-    public TcpNodeInstance(string relativePath, IPAddress ip, int port, IMapper mapper, IPackageManager packageManager)
+    public TcpNode(string relativePath, IPAddress ip, int port, IMapper mapper, IPackageManager packageManager)
     {
         RelativePath = relativePath;
         IpAddress = ip;

@@ -7,14 +7,14 @@ using PerfTips.Shared.PackageManager;
 
 namespace PerfTips.ServerClient.TcpServer;
 
-public class ServerInstance : IServerInstance
+public class Server : IServer
 {
     private readonly IMapper _mapper;
     private readonly IDataProvider _provider;
     private readonly IPackageManager _packageManager;
     private readonly List<NodeInfo> _nodes = new ();
 
-    public ServerInstance(IPAddress ipAddress, int port, IMapper mapper, IDataProvider provider, IPackageManager packageManager)
+    public Server(IPAddress ipAddress, int port, IMapper mapper, IDataProvider provider, IPackageManager packageManager)
     {
         IpAddress = ipAddress;
         Port = port;
@@ -41,8 +41,6 @@ public class ServerInstance : IServerInstance
         {
             Console.WriteLine(e);
         }
-
-        cts.Token.ThrowIfCancellationRequested();
     }
 
     public void AddNode(NodeInfo node)

@@ -8,20 +8,20 @@ namespace PerfTips.ServerClient.Commands;
 
 public class CleanNodeCommand : IServerCommand
 {
-    public Task Execute(ServerInstance serverInstance, IPackageManager packageManager, IDataProvider dataProvider,
+    public Task Execute(Server server, IPackageManager packageManager, IDataProvider dataProvider,
         CancellationTokenSource token)
     {
         var nodeName = dataProvider.AskData("Node name to clean: ");
 
-        var node = serverInstance.GetNodeInfo(nodeName);
+        var node = server.GetNodeInfo(nodeName);
 
         var message = new TcpMessage
         {
-            Port = serverInstance.Port,
+            Port = server.Port,
             Command = NodeCommands.CleanNode,
         };
 
-        packageManager.SendPackage(message, new (serverInstance.IpAddress, node.Port));
+        packageManager.SendPackage(message, new (server.IpAddress, node.Port));
 
         return Task.CompletedTask;
     }
