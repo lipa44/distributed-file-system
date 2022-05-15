@@ -44,9 +44,7 @@ public static class Program
                 /* Creating listener for our socket  */
                 var listener = await socket.AcceptAsync(cts.Token);
 
-                var package = packageManager.ReceivePackage(listener);
-
-                await node.Execute(listener, package, new CancellationTokenSource());
+                await node.Execute(listener, cts);
             }
 
             cts.Token.ThrowIfCancellationRequested();
