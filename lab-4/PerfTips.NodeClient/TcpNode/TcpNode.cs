@@ -28,15 +28,22 @@ public class TcpNode : ITcpNode
     public int Port { get; init; }
     public IReadOnlyList<FileDescriptor> Files => _files;
 
-    public async Task Execute(Socket socket, byte[] package, CancellationTokenSource cts)
+    public async Task Execute(Socket listener, CancellationTokenSource cts)
     {
-        var packageMessage = _packageManager.Serializer.Deserialize<TcpMessage>(package);
+        try
+        {
+            var package = _packageManager.ReceivePackage(listener);
 
-        var nodeCommand = _mapper.Map<NodeCommands, INodeCommand>(packageMessage.Command);
+            var packageMessage = _packageManager.Serializer.Deserialize<TcpMessage>(package);
 
-        await nodeCommand.Execute(this, packageMessage, socket, _packageManager, cts);
+            var nodeCommand = _mapper.Map<NodeCommands, INodeCommand>(packageMessage.Command);
 
-        cts.Token.ThrowIfCancellationRequested();
+            await nodeCommand.Execute(this, packageMessage, listener, _packageManager, cts);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+        }
     }
 
     public async Task AddFile(FileDescriptor fileDescriptor, byte[] bytes)

@@ -5,7 +5,7 @@ namespace PerfTips.NodeClient.TcpNode;
 
 public interface ITcpNode
 {
-    Task Execute(Socket socket, byte[] package, CancellationTokenSource cts);
+    Task Execute(Socket socket, CancellationTokenSource cts);
 
     Task AddFile(FileDescriptor fileDescriptor, byte[] bytes);
     void RemoveFile(FileDescriptor fileDescriptor);
