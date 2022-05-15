@@ -1,46 +1,63 @@
 ﻿using System.Net;
 using System.Net.Sockets;
 using AutoMapper;
-using PerfTips.NodeClient;
 using PerfTips.NodeClient.TcpNode;
 using PerfTips.Shared.PackageManager;
 
-var appSettings = Startup.AppSettings;
-string server = appSettings.Server;
+namespace PerfTips.NodeClient;
 
-Console.Write("Enter port: ");
-var port = int.Parse(Console.ReadLine()!);
-
-
-var tcpEndPoint = new IPEndPoint(IPAddress.Parse(server), port);
-var socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-
-socket.Bind(tcpEndPoint);
-Console.WriteLine($"Endpoint started listening at: {server}:{port}");
-socket.Listen();
-
-IPackageManager packageManager = Startup.PackageManager;
-IMapper mapper = Startup.Mapper;
-
-TcpNodeInstance nodeInstance = new (appSettings.RelativePath, IPAddress.Parse(server), port, mapper, packageManager);
-
-try
+public static class Program
 {
-    while (true)
+    public static async Task Main(string[] args)
     {
-        /* Creating listener for our socket  */
-        var listener = await socket.AcceptAsync();
+        var appSettings = Startup.AppSettings;
+        string server = appSettings.Server;
 
-        var package = packageManager.ReceivePackage(listener);
+        // Console.Write("Enter port: ");
+        var port = int.Parse(args[0]);
 
-        await nodeInstance.Execute(listener, package, new CancellationTokenSource());
+        var tcpEndPoint = new IPEndPoint(IPAddress.Parse(server), port);
+        var socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+
+        socket.Bind(tcpEndPoint);
+        Console.WriteLine($"Endpoint started listening at: {server}:{port}");
+        socket.Listen();
+
+        IPackageManager packageManager = Startup.PackageManager;
+        IMapper mapper = Startup.Mapper;
+
+        TcpNode.TcpNode node = new (appSettings.RelativePath, IPAddress.Parse(server), port, mapper, packageManager);
+
+        var cts = new CancellationTokenSource();
+        
+        Console.CancelKeyPress += (s, e) =>
+        {
+            Console.WriteLine("Canceling...");
+            cts.Cancel();
+            e.Cancel = true;
+        };
+
+        try
+        {
+            while (!cts.IsCancellationRequested)
+            {
+                /* Creating listener for our socket  */
+                var listener = await socket.AcceptAsync(cts.Token);
+
+                var package = packageManager.ReceivePackage(listener);
+
+                await node.Execute(listener, package, new CancellationTokenSource());
+            }
+
+            cts.Token.ThrowIfCancellationRequested();
+        }
+        catch (OperationCanceledException)
+        {
+            Console.WriteLine("Cancellation requested, node stopped");
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+        }
     }
-}
-catch (OperationCanceledException)
-{
-    Console.WriteLine("Cancellation requested, node stopped");
-}
-catch (Exception e)
-{
-    Console.WriteLine(e);
 }

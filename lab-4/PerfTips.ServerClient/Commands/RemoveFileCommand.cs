@@ -10,13 +10,13 @@ namespace PerfTips.ServerClient.Commands;
 
 public class RemoveFileCommand : IServerCommand
 {
-    public Task Execute(ServerInstance serverInstance, IPackageManager packageManager, IDataProvider dataProvider,
+    public Task Execute(Server server, IPackageManager packageManager, IDataProvider dataProvider,
         CancellationTokenSource token)
     {
         var nodeName = dataProvider.AskData("Node name to add file: ");
         var fileFullPath = dataProvider.AskData($"File relative path on node {nodeName}: ");
 
-        var node = serverInstance.GetNodeInfo(nodeName);
+        var node = server.GetNodeInfo(nodeName);
 
         var fileInfo = new FileInfo(fileFullPath);
         node.RemoveBytes(fileInfo.Length);
@@ -29,7 +29,7 @@ public class RemoveFileCommand : IServerCommand
             Data = packageManager.Serializer.Serialize(removeFileMessage)
         };
 
-        var socket = packageManager.SendPackage(message, new(serverInstance.IpAddress, node.Port));
+        var socket = packageManager.SendPackage(message, new(server.IpAddress, node.Port));
 
         socket.Shutdown(SocketShutdown.Both);
         socket.Close();

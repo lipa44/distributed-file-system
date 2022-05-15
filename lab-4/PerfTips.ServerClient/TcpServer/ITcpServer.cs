@@ -3,7 +3,7 @@ using PerfTips.Shared.Enums;
 
 namespace PerfTips.ServerClient.TcpServer;
 
-public interface IServerInstance
+public interface IServer
 {
     public IPAddress IpAddress { get; init; }
     Task Execute(ServerCommands command, CancellationTokenSource cts);

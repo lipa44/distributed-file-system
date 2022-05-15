@@ -10,14 +10,14 @@ namespace PerfTips.ServerClient.Commands;
 
 public class AddFileCommand : IServerCommand
 {
-    public async Task Execute(ServerInstance serverInstance, IPackageManager packageManager, IDataProvider dataProvider,
+    public async Task Execute(Server server, IPackageManager packageManager, IDataProvider dataProvider,
         CancellationTokenSource token)
     {
         var filePath = dataProvider.AskData("File path (absolute): ");
         var nodeName = dataProvider.AskData("Node name to add file: ");
         var fileRelativePath = dataProvider.AskData($"File relative path on node {nodeName}: ");
 
-        var node = serverInstance.GetNodeInfo(nodeName);
+        var node = server.GetNodeInfo(nodeName);
 
         var fileInfo = new FileInfo(filePath);
         node.AddBytes(fileInfo.Length);
@@ -36,7 +36,7 @@ public class AddFileCommand : IServerCommand
             Data = packageManager.Serializer.Serialize(fileMessage)
         };
 
-        var socket = packageManager.SendPackage(message, new (serverInstance.IpAddress, node.Port));
+        var socket = packageManager.SendPackage(message, new (server.IpAddress, node.Port));
 
         socket.Shutdown(SocketShutdown.Both);
         socket.Close();

@@ -6,7 +6,7 @@ namespace PerfTips.ServerClient.Commands;
 
 public class AddNodeCommand : IServerCommand
 {
-    public Task Execute(ServerInstance serverInstance, IPackageManager packageManager, IDataProvider dataProvider,
+    public Task Execute(Server server, IPackageManager packageManager, IDataProvider dataProvider,
         CancellationTokenSource token)
     {
         var name = dataProvider.AskData("Name: ");
@@ -15,7 +15,7 @@ public class AddNodeCommand : IServerCommand
 
         var tcpNode = new NodeInfo(name, port, size);
 
-        serverInstance.AddNode(tcpNode);
+        server.AddNode(tcpNode);
 
         Console.WriteLine($"\nNode {tcpNode} successfully added!\n");
 

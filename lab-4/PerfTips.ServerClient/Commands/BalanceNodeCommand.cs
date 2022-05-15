@@ -10,21 +10,21 @@ namespace PerfTips.ServerClient.Commands;
 
 public class BalanceNodeCommand : IServerCommand
 {
-    public async Task Execute(ServerInstance serverInstance, IPackageManager packageManager, IDataProvider dataProvider,
+    public async Task Execute(Server server, IPackageManager packageManager, IDataProvider dataProvider,
         CancellationTokenSource token)
     {
         var files = new List<FileMessage>();
-        var nodes = serverInstance.Nodes;
+        var nodes = server.Nodes;
 
         foreach (var node in nodes)
         {
             var message = new TcpMessage
             {
-                Port = serverInstance.Port,
+                Port = server.Port,
                 Command = NodeCommands.CleanNode,
             };
 
-            var socket = packageManager.SendPackage(message, new (serverInstance.IpAddress, node.Port));
+            var socket = packageManager.SendPackage(message, new (server.IpAddress, node.Port));
 
             var package = packageManager.ReceivePackage(socket);
 
@@ -56,7 +56,7 @@ public class BalanceNodeCommand : IServerCommand
                 Data = packageManager.Serializer.Serialize(fileMessage)
             };
 
-            packageManager.SendPackage(message, new (serverInstance.IpAddress, node.Port));
+            packageManager.SendPackage(message, new (server.IpAddress, node.Port));
         }
     }
 
