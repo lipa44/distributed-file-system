@@ -15,7 +15,7 @@ public class AddFileCommand : INodeCommand
         var fileDescriptor = new FileDescriptor
         {
             FilePath = addFileMessage.PartialPath,
-            FileInfo = new FileInfo(Path.Combine(node.RelativePath, addFileMessage.PartialPath))
+            FileInfo = new FileInfo(Path.Combine(node.RelativePath, $"{node.Port}", addFileMessage.PartialPath))
         };
 
         await node.AddFile(fileDescriptor, addFileMessage.FileData);

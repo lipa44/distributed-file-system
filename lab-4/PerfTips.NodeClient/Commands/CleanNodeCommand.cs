@@ -21,16 +21,16 @@ public class CleanNodeCommand : INodeCommand
                 PartialPath = fileDescriptor.FilePath,
                 FileData = fileBytes
             });
-
-            node.RemoveFile(fileDescriptor);
         }
+
+        node.Clean();
 
         var message = new TcpMessage
         {
             Data = packageManager.Serializer.Serialize(filesToSend)
         };
 
-        socket.Send(packageManager.Serializer.Serialize(message));
+        await socket.SendAsync(packageManager.Serializer.Serialize(message));
 
         Console.WriteLine("Node cleaned");
     }

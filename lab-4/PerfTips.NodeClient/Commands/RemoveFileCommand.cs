@@ -15,7 +15,7 @@ public class RemoveFileCommand : INodeCommand
         var fileDescriptor = new FileDescriptor
         {
             FilePath = addFileMessage.PartialPath,
-            FileInfo = new FileInfo(Path.Combine(node.RelativePath, addFileMessage.PartialPath))
+            FileInfo = new FileInfo(Path.Combine(node.RelativePath, $"{node.Port}", addFileMessage.PartialPath))
         };
 
         node.RemoveFile(fileDescriptor);

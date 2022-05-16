@@ -10,7 +10,7 @@ namespace PerfTips.ServerClient.Commands;
 
 public class RemoveFileCommand : IServerCommand
 {
-    public Task Execute(Server server, IPackageManager packageManager, IDataProvider dataProvider,
+    public async Task Execute(Server server, IPackageManager packageManager, IDataProvider dataProvider,
         CancellationTokenSource token)
     {
         var nodeName = dataProvider.AskData("Node name to add file: ");
@@ -29,11 +29,9 @@ public class RemoveFileCommand : IServerCommand
             Data = packageManager.Serializer.Serialize(removeFileMessage)
         };
 
-        var socket = packageManager.SendPackage(message, new(server.IpAddress, node.Port));
+        var socket = await packageManager.SendPackage(message, new(server.IpAddress, node.Port));
 
         socket.Shutdown(SocketShutdown.Both);
         socket.Close();
-
-        return Task.CompletedTask;
     }
 }

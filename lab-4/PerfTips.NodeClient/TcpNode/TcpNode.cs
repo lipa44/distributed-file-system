@@ -13,7 +13,7 @@ public class TcpNode : ITcpNode
     private readonly IMapper _mapper;
     private readonly IPackageManager _packageManager;
     private readonly List<FileDescriptor> _files = new();
-    
+
     public TcpNode(string relativePath, IPAddress ip, int port, IMapper mapper, IPackageManager packageManager)
     {
         RelativePath = relativePath;
@@ -32,7 +32,7 @@ public class TcpNode : ITcpNode
     {
         try
         {
-            var package = _packageManager.ReceivePackage(listener);
+            var package = await _packageManager.ReceivePackage(listener);
 
             var packageMessage = _packageManager.Serializer.Deserialize<TcpMessage>(package);
 
@@ -44,6 +44,9 @@ public class TcpNode : ITcpNode
         {
             Console.WriteLine(e);
         }
+
+        listener.Shutdown(SocketShutdown.Both);
+        listener.Close();
     }
 
     public async Task AddFile(FileDescriptor fileDescriptor, byte[] bytes)
@@ -57,7 +60,7 @@ public class TcpNode : ITcpNode
         fileInfo.Directory?.Create();
         await File.WriteAllBytesAsync(fileInfo.FullName, bytes);
 
-        Console.WriteLine($"File {fileInfo} added");
+        Console.WriteLine($"File {fileDescriptor.FilePath} added");
     }
 
     public void RemoveFile(FileDescriptor fileDescriptor)
@@ -70,6 +73,18 @@ public class TcpNode : ITcpNode
 
         Console.WriteLine($"File {fileDescriptor.FilePath} removed");
     }
+
+    public void Clean()
+    {
+        foreach (var fileDescriptor in _files)
+        {
+            File.Delete(fileDescriptor.FileInfo.FullName);
+            Console.WriteLine($"File {fileDescriptor.FilePath} removed");
+        }
+
+        _files.RemoveAll(_ => true);
+    }
+
     
     private bool IfFileExists(FileDescriptor filePath) => _files.Any(n => n.Equals(filePath));
 }
