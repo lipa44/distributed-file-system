@@ -48,6 +48,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerfTips.ServerClient", "la
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerfTips.Shared", "lab-4\PerfTips.Shared\PerfTips.Shared.csproj", "{85F53E71-B879-424A-9369-F68D2A8AF78B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerfTips.FilesGenerator", "lab-4\PerfTips.FilesGenerator\PerfTips.FilesGenerator.csproj", "{ED602C5A-D958-4954-8373-4A6AED36F574}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -67,6 +69,7 @@ Global
 		{935948C0-A7BE-4773-8DF4-CD03D44C3D4B} = {589A916E-279C-4E20-BA0F-E6E738736A41}
 		{73A7B6B4-FBB6-41A1-ABAE-652AA492C36D} = {589A916E-279C-4E20-BA0F-E6E738736A41}
 		{85F53E71-B879-424A-9369-F68D2A8AF78B} = {589A916E-279C-4E20-BA0F-E6E738736A41}
+		{ED602C5A-D958-4954-8373-4A6AED36F574} = {589A916E-279C-4E20-BA0F-E6E738736A41}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{59356D4C-00AE-42E1-9C73-F0310C9826A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -121,5 +124,9 @@ Global
 		{85F53E71-B879-424A-9369-F68D2A8AF78B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{85F53E71-B879-424A-9369-F68D2A8AF78B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{85F53E71-B879-424A-9369-F68D2A8AF78B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED602C5A-D958-4954-8373-4A6AED36F574}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED602C5A-D958-4954-8373-4A6AED36F574}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED602C5A-D958-4954-8373-4A6AED36F574}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED602C5A-D958-4954-8373-4A6AED36F574}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

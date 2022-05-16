@@ -10,6 +10,8 @@ public static class Program
 {
     public static async Task Main()
     {
+        FilesGenerator.Program.Main();
+
         var appSettings = Startup.AppSettings;
 
         IDataProvider commandsProvider = Startup.DataProvider;

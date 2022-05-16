@@ -9,6 +9,7 @@ public interface ITcpNode
 
     Task AddFile(FileDescriptor fileDescriptor, byte[] bytes);
     void RemoveFile(FileDescriptor fileDescriptor);
+    void Clean();
 
     public string RelativePath { get; init; }
     public IPAddress IpAddress { get; init; }

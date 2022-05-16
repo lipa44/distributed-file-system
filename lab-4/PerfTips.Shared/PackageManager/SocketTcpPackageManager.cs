@@ -17,12 +17,12 @@ public class SocketTcpPackageManager : IPackageManager
 
     public ISerializer Serializer => _serializer;
 
-    public Socket SendPackage<T>(T message, IPEndPoint endpoint)
+    public async Task<Socket> SendPackage<T>(T message, IPEndPoint endpoint)
     {
         var tcpSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
-        tcpSocket.Connect(endpoint);
-        tcpSocket.Send(_serializer.Serialize(message));
+        await tcpSocket.ConnectAsync(endpoint);
+        await tcpSocket.SendAsync(_serializer.Serialize(message));
 
         return tcpSocket;
     }
@@ -50,14 +50,14 @@ public class SocketTcpPackageManager : IPackageManager
         return result.ToArray();
     }
 
-    public byte[] ReceivePackage(Socket listener)
+    public async Task<byte[]> ReceivePackage(Socket listener)
     {
         var buffer = new byte[_bufferSize];
         var result = new List<byte>();
 
         do
         {
-            var size = listener.Receive(buffer);
+            var size = await listener.ReceiveAsync(buffer);
             result.AddRange(size < _bufferSize ? buffer.Take(size) : buffer);
         } while (listener.Available > 0);
 

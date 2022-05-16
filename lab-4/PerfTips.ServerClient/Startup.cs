@@ -33,7 +33,7 @@ public static class Startup
             });
     }).CreateMapper();
 
-    public static readonly IDataProvider DataProvider = new SpectreConsoleDataProvider();
+    public static readonly IDataProvider DataProvider = new FileDataProvider(@"C:\Users\user.local\Desktop\Commands.txt");
 
     public static readonly ISerializer Serializer = new Utf8Serializer();
 

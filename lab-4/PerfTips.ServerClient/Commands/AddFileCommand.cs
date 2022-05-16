@@ -26,7 +26,7 @@ public class AddFileCommand : IServerCommand
 
         FileMessage fileMessage = new FileMessage
         {
-            PartialPath = Path.Combine(nodeName, fileRelativePath, fileInfo.Name),
+            PartialPath = Path.Combine(fileRelativePath, fileInfo.Name),
             FileData = bytes
         };
 
@@ -36,7 +36,7 @@ public class AddFileCommand : IServerCommand
             Data = packageManager.Serializer.Serialize(fileMessage)
         };
 
-        var socket = packageManager.SendPackage(message, new (server.IpAddress, node.Port));
+        var socket = await packageManager.SendPackage(message, new (server.IpAddress, node.Port));
 
         socket.Shutdown(SocketShutdown.Both);
         socket.Close();
