@@ -24,13 +24,20 @@ public class BalanceNodeCommand : IServerCommand
                 Command = NodeCommands.CleanNode,
             };
 
-            var socket = packageManager.SendPackage(message, new (server.IpAddress, node.Port));
+            using var socket = packageManager.SendPackage(message, new (server.IpAddress, node.Port));
 
             var package = packageManager.ReceivePackage(socket);
 
-            var receivedMessage = packageManager.Serializer.Deserialize<TcpMessage>(package);
-            var receivedFiles = packageManager.Serializer.Deserialize<List<FileMessage>>(receivedMessage.Data);
-            files.AddRange(receivedFiles);
+            try
+            {
+                var receivedMessage = packageManager.Serializer.Deserialize<TcpMessage>(package);
+                var receivedFiles = packageManager.Serializer.Deserialize<List<FileMessage>>(receivedMessage.Data);
+                files.AddRange(receivedFiles);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
 
             node.CleanNode();
 
@@ -56,7 +63,7 @@ public class BalanceNodeCommand : IServerCommand
                 Data = packageManager.Serializer.Serialize(fileMessage)
             };
 
-            packageManager.SendPackage(message, new (server.IpAddress, node.Port));
+            using var socket = packageManager.SendPackage(message, new (server.IpAddress, node.Port));
         }
     }
 
