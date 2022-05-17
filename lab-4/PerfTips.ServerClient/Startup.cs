@@ -2,8 +2,8 @@ using AutoMapper;
 using Microsoft.Extensions.Configuration;
 using PerfTips.ServerClient.Commands;
 using PerfTips.ServerClient.DataProviders;
+using PerfTips.ServerClient.Helpers;
 using PerfTips.Shared.Enums;
-using PerfTips.Shared.Helpers;
 using PerfTips.Shared.PackageManager;
 using PerfTips.Shared.Serializer;
 

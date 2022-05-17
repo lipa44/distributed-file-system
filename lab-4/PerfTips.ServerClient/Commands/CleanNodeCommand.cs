@@ -1,8 +1,8 @@
-using System.Net.Sockets;
 using PerfTips.ServerClient.DataProviders;
 using PerfTips.ServerClient.TcpServer;
 using PerfTips.Shared;
 using PerfTips.Shared.Enums;
+using PerfTips.Shared.MessageRecords;
 using PerfTips.Shared.PackageManager;
 
 namespace PerfTips.ServerClient.Commands;
@@ -22,9 +22,6 @@ public class CleanNodeCommand : IServerCommand
             Command = NodeCommands.CleanNode,
         };
 
-        var socket = await packageManager.SendPackage(message, new (server.IpAddress, node.Port));
-
-        socket.Shutdown(SocketShutdown.Both);
-        socket.Close();
+        using var socket = await packageManager.SendPackage(message, new (server.IpAddress, node.Port));
     }
 }
