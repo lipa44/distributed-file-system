@@ -10,27 +10,24 @@ public class CleanNodeCommand : INodeCommand
 {
     public async Task Execute(ITcpNode node, TcpMessage tcpMessage, Socket socket, IPackageManager packageManager, CancellationTokenSource cts)
     {
-        var filesToSend = new List<FileMessage>();
+        var filesToSend = new List<FileMessage>(node.Files.Count);
 
         foreach (var fileDescriptor in new List<FileDescriptor>(node.Files))
         {
             var fileBytes = await File.ReadAllBytesAsync(fileDescriptor.FileInfo.FullName);
 
-            filesToSend.Add(new FileMessage
+            var fileMessage = new FileMessage
             {
                 PartialPath = fileDescriptor.FilePath,
                 FileData = fileBytes
-            });
+            };
+
+            filesToSend.Add(fileMessage);
         }
 
+        await socket.SendAsync(packageManager.Serializer.Serialize(filesToSend));
+
         node.Clean();
-
-        var message = new TcpMessage
-        {
-            Data = packageManager.Serializer.Serialize(filesToSend)
-        };
-
-        await socket.SendAsync(packageManager.Serializer.Serialize(message));
 
         Console.WriteLine("Node cleaned");
     }

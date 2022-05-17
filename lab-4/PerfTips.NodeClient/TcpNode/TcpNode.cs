@@ -4,6 +4,7 @@ using AutoMapper;
 using PerfTips.NodeClient.Commands;
 using PerfTips.Shared;
 using PerfTips.Shared.Enums;
+using PerfTips.Shared.MessageRecords;
 using PerfTips.Shared.PackageManager;
 
 namespace PerfTips.NodeClient.TcpNode;
@@ -30,23 +31,13 @@ public class TcpNode : ITcpNode
 
     public async Task Execute(Socket listener, CancellationTokenSource cts)
     {
-        try
-        {
-            var package = await _packageManager.ReceivePackage(listener);
+        var package = await _packageManager.ReceivePackage(listener);
 
-            var packageMessage = _packageManager.Serializer.Deserialize<TcpMessage>(package);
+        var packageMessage = _packageManager.Serializer.Deserialize<TcpMessage>(package);
 
-            var nodeCommand = _mapper.Map<NodeCommands, INodeCommand>(packageMessage.Command);
+        var nodeCommand = _mapper.Map<NodeCommands, INodeCommand>(packageMessage.Command);
 
-            await nodeCommand.Execute(this, packageMessage, listener, _packageManager, cts);
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-        }
-
-        listener.Shutdown(SocketShutdown.Both);
-        listener.Close();
+        await nodeCommand.Execute(this, packageMessage, listener, _packageManager, cts);
     }
 
     public async Task AddFile(FileDescriptor fileDescriptor, byte[] bytes)
@@ -85,6 +76,6 @@ public class TcpNode : ITcpNode
         _files.RemoveAll(_ => true);
     }
 
-    
+
     private bool IfFileExists(FileDescriptor filePath) => _files.Any(n => n.Equals(filePath));
 }

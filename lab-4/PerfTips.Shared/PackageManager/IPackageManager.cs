@@ -8,6 +8,5 @@ public interface IPackageManager
 {
     ISerializer Serializer { get; }
     Task<Socket> SendPackage<T>(T message, IPEndPoint endpoint);
-    Task<byte[]> ReceivePackage(IPEndPoint endPoint);
     Task<byte[]> ReceivePackage(Socket listener);
 }

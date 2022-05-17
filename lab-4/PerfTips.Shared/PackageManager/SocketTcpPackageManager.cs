@@ -1,3 +1,4 @@
+using System.Buffers;
 using System.Net;
 using System.Net.Sockets;
 using PerfTips.Shared.Serializer;
@@ -27,39 +28,18 @@ public class SocketTcpPackageManager : IPackageManager
         return tcpSocket;
     }
 
-    public async Task<byte[]> ReceivePackage(IPEndPoint ipEndPoint)
-    {
-        var socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-
-        socket.Bind(ipEndPoint);
-        socket.Listen();
-
-        var listener = await socket.AcceptAsync();
-        var buffer = new byte[_bufferSize];
-        var result = new List<byte>();
-
-        do
-        {
-            var size = listener.Receive(buffer);
-            result.AddRange(size < _bufferSize ? buffer.Take(size) : buffer);
-        } while (listener.Available > 0);
-
-        listener.Shutdown(SocketShutdown.Both);
-        listener.Close();
-
-        return result.ToArray();
-    }
-
     public async Task<byte[]> ReceivePackage(Socket listener)
     {
-        var buffer = new byte[_bufferSize];
         var result = new List<byte>();
+        var buffer = ArrayPool<byte>.Shared.Rent(_bufferSize);
 
         do
         {
             var size = await listener.ReceiveAsync(buffer);
             result.AddRange(size < _bufferSize ? buffer.Take(size) : buffer);
         } while (listener.Available > 0);
+
+        ArrayPool<byte>.Shared.Return(buffer);
 
         return result.ToArray();
     }

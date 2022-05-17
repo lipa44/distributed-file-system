@@ -41,7 +41,7 @@ public static class Program
             while (!cts.IsCancellationRequested)
             {
                 /* Creating listener for our socket  */
-                var listener = await socket.AcceptAsync(cts.Token);
+                using var listener = await socket.AcceptAsync(cts.Token);
 
                 await node.Execute(listener, cts);
             }

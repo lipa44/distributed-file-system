@@ -36,9 +36,6 @@ public class AddFileCommand : IServerCommand
             Data = packageManager.Serializer.Serialize(fileMessage)
         };
 
-        var socket = await packageManager.SendPackage(message, new (server.IpAddress, node.Port));
-
-        socket.Shutdown(SocketShutdown.Both);
-        socket.Close();
+        using var socket = await packageManager.SendPackage(message, new (server.IpAddress, node.Port));
     }
 }

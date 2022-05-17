@@ -48,5 +48,6 @@ public static class Program
             Console.WriteLine(e);
         }
 
+        Console.ReadLine();
     }
 }

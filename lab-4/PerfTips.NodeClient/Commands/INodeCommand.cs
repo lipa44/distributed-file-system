@@ -1,6 +1,7 @@
 using System.Net.Sockets;
 using PerfTips.NodeClient.TcpNode;
 using PerfTips.Shared;
+using PerfTips.Shared.MessageRecords;
 using PerfTips.Shared.PackageManager;
 
 namespace PerfTips.NodeClient.Commands;

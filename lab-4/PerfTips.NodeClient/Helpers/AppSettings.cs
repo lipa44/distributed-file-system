@@ -1,8 +1,8 @@
 namespace PerfTips.NodeClient.Helpers;
 
-public record AppSettings
+public readonly record struct AppSettings
 {
-    public int BufferSize { get; set; }
-    public string Server { get; set; }
-    public string RelativePath { get; set; }
+    public int BufferSize { get; init; }
+    public string Server { get; init; }
+    public string RelativePath { get; init; }
 }
