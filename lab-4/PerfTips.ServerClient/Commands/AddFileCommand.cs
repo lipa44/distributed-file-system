@@ -1,3 +1,4 @@
+using System.Buffers;
 using PerfTips.ServerClient.DataProviders;
 using PerfTips.ServerClient.TcpServer;
 using PerfTips.Shared.Enums;
@@ -20,13 +21,16 @@ public class AddFileCommand : IServerCommand
         var fileInfo = new FileInfo(filePath);
         node.AddBytes(fileInfo.Length);
 
-        var bytes = await File.ReadAllBytesAsync(filePath);
+        var buffer = ArrayPool<byte>.Shared.Rent((int)fileInfo.Length);
+        (await File.ReadAllBytesAsync(filePath)).CopyTo(buffer, 0);
 
         FileMessage fileMessage = new FileMessage
         {
             PartialPath = Path.Combine(fileRelativePath, fileInfo.Name),
-            FileData = bytes
+            FileData = buffer
         };
+
+        ArrayPool<byte>.Shared.Return(buffer);
 
         var message = new TcpMessage
         {

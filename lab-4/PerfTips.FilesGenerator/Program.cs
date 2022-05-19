@@ -36,6 +36,8 @@ public static class Program
             File.AppendAllText(CommandsPath, $@"AddFile {Path.Combine(FilesPath, $"file{i}.txt")} {GetRandomNode()} file{i}" + "\n");
 
         File.AppendAllText(CommandsPath, "BalanceNode\n");
+        File.AppendAllText(CommandsPath, "BalanceNode\n");
+        File.AppendAllText(CommandsPath, "BalanceNode\n");
     }
 
     private static string GetRandomNode() => NodeNames[new Random().Next(NodeNames.Count)];
