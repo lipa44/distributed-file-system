@@ -16,6 +16,8 @@ public static class Startup
         .AddEnvironmentVariables()
         .Build();
 
+    public static readonly string DesktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+
     public static readonly IMapper Mapper = new MapperConfiguration
     (cfg =>
     {
@@ -33,7 +35,7 @@ public static class Startup
             });
     }).CreateMapper();
 
-    public static readonly IDataProvider DataProvider = new FileDataProvider(@"C:\Users\user.local\Desktop\Commands.txt");
+    public static readonly IDataProvider DataProvider = new FileDataProvider(Path.Combine(DesktopPath, "Commands.txt"));
 
     public static readonly ISerializer Serializer = new Utf8Serializer();
 

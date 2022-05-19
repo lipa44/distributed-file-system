@@ -7,7 +7,7 @@ using PerfTips.Shared.PackageManager;
 
 namespace PerfTips.ServerClient.TcpServer;
 
-public class Server : IServer
+public record Server : IServer
 {
     private readonly IMapper _mapper;
     private readonly IDataProvider _provider;

@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Net.Sockets;
 using AutoMapper;
+using PerfTips.NodeClient.TcpNode;
 using PerfTips.Shared.PackageManager;
 
 namespace PerfTips.NodeClient;
@@ -25,13 +26,12 @@ public static class Program
         IPackageManager packageManager = Startup.PackageManager;
         IMapper mapper = Startup.Mapper;
 
-        TcpNode.TcpNode node = new (appSettings.RelativePath, IPAddress.Parse(server), port, mapper, packageManager);
+        TcpNodeInstance nodeInstance = new (Path.Combine(Startup.DesktopPath, appSettings.RelativePath), IPAddress.Parse(server), port, mapper, packageManager);
 
         var cts = new CancellationTokenSource();
 
         Console.CancelKeyPress += (s, e) =>
         {
-            Console.WriteLine("Canceling...");
             cts.Cancel();
             e.Cancel = true;
         };
@@ -43,7 +43,7 @@ public static class Program
                 /* Creating listener for our socket  */
                 using var listener = await socket.AcceptAsync(cts.Token);
 
-                await node.Execute(listener, cts);
+                await nodeInstance.Execute(listener, cts);
             }
 
             cts.Token.ThrowIfCancellationRequested();

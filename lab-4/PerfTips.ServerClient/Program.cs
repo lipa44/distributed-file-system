@@ -8,9 +8,10 @@ namespace PerfTips.ServerClient;
 
 public static class Program
 {
-    public static async Task Main()
+    public static async Task Main(string[] args)
     {
-        FilesGenerator.Program.Main();
+        if (args.Any() && bool.TryParse(args[0], out var isWithFilesGeneration) && isWithFilesGeneration)
+            FilesGenerator.Program.Main();
 
         var appSettings = Startup.AppSettings;
 
@@ -22,7 +23,6 @@ public static class Program
         
         Console.CancelKeyPress += (s, e) =>
         {
-            Console.WriteLine("Canceling...");
             cts.Cancel();
             e.Cancel = true;
         };
@@ -47,7 +47,5 @@ public static class Program
         {
             Console.WriteLine(e);
         }
-
-        Console.ReadLine();
     }
 }

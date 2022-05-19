@@ -1,8 +1,18 @@
+using Microsoft.IO;
+
 namespace PerfTips.Shared.Serializer;
 
 public class Utf8Serializer : ISerializer
 {
-    public byte[] Serialize<T>(T obj) => Utf8Json.JsonSerializer.Serialize(obj);
+    private static readonly RecyclableMemoryStreamManager Manager = new();
 
-    public T Deserialize<T>(byte[] bytes) => Utf8Json.JsonSerializer.Deserialize<T>(bytes);
+    public byte[] Serialize<T>(T obj)
+    {
+        return Utf8Json.JsonSerializer.Serialize(obj);
+    }
+
+    public T Deserialize<T>(byte[] bytes)
+    {
+        return Utf8Json.JsonSerializer.Deserialize<T>(bytes);
+    }
 }

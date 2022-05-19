@@ -15,6 +15,8 @@ public static class Startup
         .AddEnvironmentVariables()
         .Build();
 
+    public static readonly string DesktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+
     public static readonly IMapper Mapper = new MapperConfiguration(cfg =>
     {
         cfg.CreateMap<NodeCommands, INodeCommand>()
