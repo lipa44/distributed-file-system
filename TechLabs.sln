@@ -13,6 +13,14 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lab-4", "lab-4", "{589A916E-279C-4E20-BA0F-E6E738736A41}"
 	ProjectSection(SolutionItems) = preProject
 		lab-4\README.md = lab-4\README.md
+		lab-4\assets\1st_dump_5k.jpg = lab-4\assets\1st_dump_5k.jpg
+		lab-4\assets\.DS_Store = lab-4\assets\.DS_Store
+		lab-4\assets\3rd_dump_5k_records.jpg = lab-4\assets\3rd_dump_5k_records.jpg
+		lab-4\assets\2nd_dump_5k_arrayPool.jpg = lab-4\assets\2nd_dump_5k_arrayPool.jpg
+		lab-4\assets\2nd_multy_balance_with_optimizations.jpg = lab-4\assets\2nd_multy_balance_with_optimizations.jpg
+		lab-4\assets\1st_multy_balance_withoup_optimizations.jpg = lab-4\assets\1st_multy_balance_withoup_optimizations.jpg
+		lab-4\assets\1st_dump_1k_some_optimizations.jpg = lab-4\assets\1st_dump_1k_some_optimizations.jpg
+		lab-4\assets\2nd_dump_1k_stringBuilder.jpg = lab-4\assets\2nd_dump_1k_stringBuilder.jpg
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lab-5", "lab-5", "{751BDE27-47C0-45BB-AC7E-75A4AD9E54A4}"
