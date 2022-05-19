@@ -1,4 +1,5 @@
 
+using System.Buffers;
 using System.Net.Sockets;
 using PerfTips.NodeClient.TcpNode;
 using PerfTips.Shared.MessageRecords;
@@ -14,15 +15,17 @@ public class CleanNodeCommand : INodeCommand
 
         foreach (var fileDescriptor in node.Files)
         {
-            var fileBytes = await File.ReadAllBytesAsync(fileDescriptor.FileInfo.FullName);
+            var buffer = ArrayPool<byte>.Shared.Rent((int)fileDescriptor.FileInfo.Length);
+            (await File.ReadAllBytesAsync(fileDescriptor.FileInfo.FullName)).CopyTo(buffer, 0);
 
             var fileMessage = new FileMessage
             {
                 PartialPath = fileDescriptor.FilePath,
-                FileData = fileBytes
+                FileData = buffer
             };
 
             filesToSend.Add(fileMessage);
+            ArrayPool<byte>.Shared.Return(buffer);
         }
 
         await socket.SendAsync(packageManager.Serializer.Serialize(filesToSend));
