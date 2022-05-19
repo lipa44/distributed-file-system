@@ -10,7 +10,7 @@ public static class Program
     private static readonly string FilesPath = Path.Combine(Desktop, "NodeFiles");
     private const int FilesAmount = 1000;
 
-    private static readonly List<string> NodeNames = new() { "A", "B", "C" };
+    private static readonly IReadOnlyList<string> NodeNames = new List<string> { "A", "B", "C" };
 
     public static void Main()
     {
@@ -34,7 +34,7 @@ public static class Program
 
         for (var i = 0; i < FilesAmount; i++)
             File.AppendAllText(CommandsPath, $@"AddFile {Path.Combine(FilesPath, $"file{i}.txt")} {GetRandomNode()} file{i}" + "\n");
-
+        
         File.AppendAllText(CommandsPath, "BalanceNode\n");
         File.AppendAllText(CommandsPath, "BalanceNode\n");
         File.AppendAllText(CommandsPath, "BalanceNode\n");
