@@ -1,5 +1,4 @@
-﻿using System.Buffers;
-using System.Text;
+﻿using System.Text;
 
 namespace PerfTips.FilesGenerator;
 
@@ -8,7 +7,8 @@ public static class Program
     private static readonly string Desktop = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
     private static readonly string CommandsPath = Path.Combine(Desktop, "Commands.txt");
     private static readonly string FilesPath = Path.Combine(Desktop, "NodeFiles");
-    private const int FilesAmount = 1000;
+    private const int FilesAmount = 3000;
+    private const int BalanceAmount = 1;
 
     private static readonly IReadOnlyList<string> NodeNames = new List<string> { "A", "B", "C" };
 
@@ -34,10 +34,10 @@ public static class Program
 
         for (var i = 0; i < FilesAmount; i++)
             File.AppendAllText(CommandsPath, $@"AddFile {Path.Combine(FilesPath, $"file{i}.txt")} {GetRandomNode()} file{i}" + "\n");
-        
-        File.AppendAllText(CommandsPath, "BalanceNode\n");
-        File.AppendAllText(CommandsPath, "BalanceNode\n");
-        File.AppendAllText(CommandsPath, "BalanceNode\n");
+
+        stringBuilder.Append("BalanceNode\n");
+        for (var i = 0; i < BalanceAmount; i++)
+            File.AppendAllText(CommandsPath, stringBuilder.ToString());
     }
 
     private static string GetRandomNode() => NodeNames[new Random().Next(NodeNames.Count)];
