@@ -75,6 +75,5 @@ public record TcpNodeInstance : ITcpNode
         _files.RemoveAll(_ => true);
     }
 
-
     private bool IfFileExists(FileDescriptor filePath) => _files.Any(n => n.Equals(filePath));
 }
