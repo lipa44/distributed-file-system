@@ -1,5 +1,6 @@
 namespace PerfTips.NodeClient.TcpNode;
 
+[Serializable]
 public readonly record struct FileDescriptor
 {
     public string FilePath { get; init; }

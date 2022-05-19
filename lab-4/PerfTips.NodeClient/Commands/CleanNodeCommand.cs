@@ -1,6 +1,6 @@
+
 using System.Net.Sockets;
 using PerfTips.NodeClient.TcpNode;
-using PerfTips.Shared;
 using PerfTips.Shared.MessageRecords;
 using PerfTips.Shared.PackageManager;
 
@@ -12,7 +12,7 @@ public class CleanNodeCommand : INodeCommand
     {
         var filesToSend = new List<FileMessage>(node.Files.Count);
 
-        foreach (var fileDescriptor in new List<FileDescriptor>(node.Files))
+        foreach (var fileDescriptor in node.Files)
         {
             var fileBytes = await File.ReadAllBytesAsync(fileDescriptor.FileInfo.FullName);
 
