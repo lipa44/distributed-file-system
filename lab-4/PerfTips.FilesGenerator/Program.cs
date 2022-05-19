@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Buffers;
+using System.Text;
 
 namespace PerfTips.FilesGenerator;
 
@@ -19,20 +20,22 @@ public static class Program
         if (!Directory.Exists(FilesPath))
             Directory.CreateDirectory(FilesPath);
 
+        var stringBuilder = new StringBuilder();
         for (var i = 0; i < FilesAmount; i++)
-            File.WriteAllLines($"{Path.Combine(FilesPath, "file{i}.txt")}", new []{ string.Concat(Enumerable.Repeat("aaa", i + 1)) });
+            File.WriteAllText($"{Path.Combine(FilesPath, $"file{i}.txt")}", stringBuilder.Append("aaa").ToString());
+
+        stringBuilder.Clear();
 
         File.Delete(CommandsPath);
-        using var file = File.Open(CommandsPath, FileMode.CreateNew, FileAccess.ReadWrite);
 
-        file.Write(Encoding.UTF8.GetBytes("AddNode A 8887 20000000\n"));
-        file.Write(Encoding.UTF8.GetBytes("AddNode B 8886 25000000\n"));
-        file.Write(Encoding.UTF8.GetBytes("AddNode C 8885 24000000\n"));
+        File.AppendAllText(CommandsPath, "AddNode A 8887 20000000\n");
+        File.AppendAllText(CommandsPath, "AddNode B 8886 25000000\n");
+        File.AppendAllText(CommandsPath, "AddNode C 8885 24000000\n");
 
         for (var i = 0; i < FilesAmount; i++)
-            file.Write(Encoding.UTF8.GetBytes($@"AddFile {Path.Combine(FilesPath, "file{i}.txt")} {GetRandomNode()} file{i}" + "\n"));
+            File.AppendAllText(CommandsPath, $@"AddFile {Path.Combine(FilesPath, $"file{i}.txt")} {GetRandomNode()} file{i}" + "\n");
 
-        file.Write(Encoding.UTF8.GetBytes("BalanceNode\n"));
+        File.AppendAllText(CommandsPath, "BalanceNode\n");
     }
 
     private static string GetRandomNode() => NodeNames[new Random().Next(NodeNames.Count)];
