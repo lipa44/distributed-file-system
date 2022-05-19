@@ -9,9 +9,9 @@ public class ProtoBufSerializer : ISerializer
     public byte[] Serialize<T>(T obj)
     {
         using var memoryStream = Manager.GetStream() as RecyclableMemoryStream;
-        
+
         ProtoBuf.Serializer.Serialize(memoryStream, obj);
-        return memoryStream.GetBuffer();
+        return memoryStream?.GetBuffer();
     }
 
     public T Deserialize<T>(byte[] bytes)
