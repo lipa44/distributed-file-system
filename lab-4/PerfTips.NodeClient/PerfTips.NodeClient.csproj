@@ -26,4 +26,8 @@
       <PackageReference Include="Microsoft.IO.RecyclableMemoryStream" Version="2.2.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\PerfTips.Shared\PerfTips.Shared.csproj" />
+    </ItemGroup>
+
 </Project>
