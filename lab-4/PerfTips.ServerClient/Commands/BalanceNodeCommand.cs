@@ -24,16 +24,22 @@ public class BalanceNodeCommand : IServerCommand
             };
 
             using var socket = await packageManager.SendPackage(message, new (server.IpAddress, node.Port));
-            
-            var package = await packageManager.ReceivePackage(socket);
 
-            try
+            var filesCountBuffer = new byte[sizeof(int)];
+            await socket.ReceiveAsync(filesCountBuffer);
+            var filesCount = packageManager.Serializer.Deserialize<int>(filesCountBuffer);
+
+            for (int i = 0; i < filesCount; i++)
             {
-                files.AddRange(packageManager.Serializer.Deserialize<IEnumerable<FileMessage>>(package));
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
+                try
+                {
+                    var file = await packageManager.ReceiveFile(socket);
+                    files.Add(file);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                }
             }
 
             node.CleanNode();

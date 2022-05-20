@@ -1,6 +1,6 @@
-using System.Buffers;
 using System.Net;
 using System.Net.Sockets;
+using PerfTips.Shared.MessageRecords;
 using PerfTips.Shared.Serializer;
 
 namespace PerfTips.Shared.PackageManager;
@@ -23,24 +23,55 @@ public class SocketTcpPackageManager : IPackageManager
         var tcpSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
         await tcpSocket.ConnectAsync(endpoint);
+
+        var sizePackage = new byte[_bufferSize];
+        var package = _serializer.Serialize(message);
+
+        _serializer.Serialize(package.Length).CopyTo(sizePackage, 0);
+
+        await tcpSocket.SendAsync(sizePackage);
         await tcpSocket.SendAsync(_serializer.Serialize(message));
 
         return tcpSocket;
     }
 
+    public async Task<Socket> SendFile<T>(T message, Socket socket)
+    {
+        var sizePackage = new byte[_bufferSize];
+        var package = _serializer.Serialize(message);
+
+        _serializer.Serialize(package.Length).CopyTo(sizePackage, 0);
+
+        await socket.SendAsync(sizePackage);
+        await socket.SendAsync(_serializer.Serialize(message));
+
+        return socket;
+    }
+
+    public async Task<FileMessage> ReceiveFile(Socket listener)
+    {
+        var packageSizeBuffer = new byte[_bufferSize];
+
+        await listener.ReceiveAsync(packageSizeBuffer);
+
+        var fileArray = new byte[_serializer.Deserialize<int>(packageSizeBuffer)];
+
+        await listener.ReceiveAsync(fileArray);
+
+        return _serializer.Deserialize<FileMessage>(fileArray);
+    }
+
     public async Task<byte[]> ReceivePackage(Socket listener)
     {
-        var result = new List<byte>();
-        var buffer = ArrayPool<byte>.Shared.Rent(_bufferSize);
+        var packageSizeBuffer = new byte[_bufferSize];
 
-        do
-        {
-            var size = await listener.ReceiveAsync(buffer);
-            result.AddRange(size < _bufferSize ? buffer.Take(size) : buffer);
-        } while (listener.Available > 0);
+        await listener.ReceiveAsync(packageSizeBuffer);
+        var packageSize = _serializer.Deserialize<int>(packageSizeBuffer);
 
-        ArrayPool<byte>.Shared.Return(buffer);
+        var packageBuffer = new byte[packageSize];
 
-        return result.ToArray();
+        await listener.ReceiveAsync(packageBuffer);
+
+        return packageBuffer;
     }
 }

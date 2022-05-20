@@ -10,7 +10,7 @@ public static class Program
 {
     public static async Task Main(string[] args)
     {
-        if (args.Any() && bool.TryParse(args[0], out var isWithFilesGeneration) && isWithFilesGeneration)
+        if (args.Any() && bool.TryParse(args[0], out bool isWithFilesGeneration) && isWithFilesGeneration)
             FilesGenerator.Program.Main();
 
         var appSettings = Startup.AppSettings;
@@ -42,10 +42,12 @@ public static class Program
         catch (OperationCanceledException)
         {
             Console.WriteLine("Cancellation requested, program stopped");
+            Console.ReadLine();
         }
         catch (Exception e)
         {
             Console.WriteLine(e);
+            Console.ReadLine();
         }
     }
 }
