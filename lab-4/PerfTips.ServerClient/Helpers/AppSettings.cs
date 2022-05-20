@@ -1,4 +1,4 @@
-namespace PerfTips.Shared.Helpers;
+namespace PerfTips.ServerClient.Helpers;
 
 public record AppSettings
 {

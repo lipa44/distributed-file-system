@@ -1,8 +1,13 @@
+using ProtoBuf;
+
 namespace PerfTips.Shared.MessageRecords;
 
 [Serializable]
-public class FileMessage
+[ProtoContract]
+public readonly record struct FileMessage
 {
-    public string PartialPath { get; set; }
-    public byte[] FileData { get; set; }
+    [ProtoMember(1)]
+    public string PartialPath { get; init; }
+    [ProtoMember(2)]
+    public byte[] FileData { get; init; }
 }

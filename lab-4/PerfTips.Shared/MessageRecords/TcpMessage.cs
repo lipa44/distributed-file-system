@@ -1,9 +1,11 @@
 using PerfTips.Shared.Enums;
+using ProtoBuf;
 
-namespace PerfTips.Shared;
+namespace PerfTips.Shared.MessageRecords;
 
 [Serializable]
-public class TcpMessage
+[ProtoContract]
+public readonly record struct TcpMessage
 {
     public int Port { get; init; }
     public NodeCommands Command { get; init; }

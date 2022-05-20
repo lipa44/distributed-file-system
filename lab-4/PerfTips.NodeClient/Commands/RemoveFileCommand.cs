@@ -1,6 +1,5 @@
 using System.Net.Sockets;
 using PerfTips.NodeClient.TcpNode;
-using PerfTips.Shared;
 using PerfTips.Shared.MessageRecords;
 using PerfTips.Shared.PackageManager;
 
@@ -15,7 +14,7 @@ public class RemoveFileCommand : INodeCommand
         var fileDescriptor = new FileDescriptor
         {
             FilePath = addFileMessage.PartialPath,
-            FileInfo = new FileInfo(Path.Combine(node.RelativePath, addFileMessage.PartialPath))
+            FileInfo = new FileInfo(Path.Combine(node.RelativePath, $"{node.Port}", addFileMessage.PartialPath))
         };
 
         node.RemoveFile(fileDescriptor);

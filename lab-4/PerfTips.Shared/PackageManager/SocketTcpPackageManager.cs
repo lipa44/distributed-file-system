@@ -1,5 +1,6 @@
 using System.Net;
 using System.Net.Sockets;
+using PerfTips.Shared.MessageRecords;
 using PerfTips.Shared.Serializer;
 
 namespace PerfTips.Shared.PackageManager;
@@ -17,50 +18,60 @@ public class SocketTcpPackageManager : IPackageManager
 
     public ISerializer Serializer => _serializer;
 
-    public Socket SendPackage<T>(T message, IPEndPoint endpoint)
+    public async Task<Socket> SendPackage<T>(T message, IPEndPoint endpoint)
     {
         var tcpSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
-        tcpSocket.Connect(endpoint);
-        tcpSocket.Send(_serializer.Serialize(message));
+        await tcpSocket.ConnectAsync(endpoint);
+
+        var sizePackage = new byte[_bufferSize];
+        var package = _serializer.Serialize(message);
+
+        _serializer.Serialize(package.Length).CopyTo(sizePackage, 0);
+
+        await tcpSocket.SendAsync(sizePackage);
+        await tcpSocket.SendAsync(_serializer.Serialize(message));
 
         return tcpSocket;
     }
 
-    public async Task<byte[]> ReceivePackage(IPEndPoint ipEndPoint)
+    public async Task<Socket> SendFile<T>(T message, Socket socket)
     {
-        var socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+        var sizePackage = new byte[_bufferSize];
+        var package = _serializer.Serialize(message);
 
-        socket.Bind(ipEndPoint);
-        socket.Listen();
+        _serializer.Serialize(package.Length).CopyTo(sizePackage, 0);
 
-        var listener = await socket.AcceptAsync();
-        var buffer = new byte[_bufferSize];
-        var result = new List<byte>();
+        await socket.SendAsync(sizePackage);
+        await socket.SendAsync(_serializer.Serialize(message));
 
-        do
-        {
-            var size = listener.Receive(buffer);
-            result.AddRange(size < _bufferSize ? buffer.Take(size) : buffer);
-        } while (listener.Available > 0);
-
-        listener.Shutdown(SocketShutdown.Both);
-        listener.Close();
-
-        return result.ToArray();
+        return socket;
     }
 
-    public byte[] ReceivePackage(Socket listener)
+    public async Task<FileMessage> ReceiveFile(Socket listener)
     {
-        var buffer = new byte[_bufferSize];
-        var result = new List<byte>();
+        var packageSizeBuffer = new byte[_bufferSize];
 
-        do
-        {
-            var size = listener.Receive(buffer);
-            result.AddRange(size < _bufferSize ? buffer.Take(size) : buffer);
-        } while (listener.Available > 0);
+        await listener.ReceiveAsync(packageSizeBuffer);
 
-        return result.ToArray();
+        var fileArray = new byte[_serializer.Deserialize<int>(packageSizeBuffer)];
+
+        await listener.ReceiveAsync(fileArray);
+
+        return _serializer.Deserialize<FileMessage>(fileArray);
+    }
+
+    public async Task<byte[]> ReceivePackage(Socket listener)
+    {
+        var packageSizeBuffer = new byte[_bufferSize];
+
+        await listener.ReceiveAsync(packageSizeBuffer);
+        var packageSize = _serializer.Deserialize<int>(packageSizeBuffer);
+
+        var packageBuffer = new byte[packageSize];
+
+        await listener.ReceiveAsync(packageBuffer);
+
+        return packageBuffer;
     }
 }

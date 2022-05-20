@@ -1,7 +1,6 @@
-using System.Net.Sockets;
+using System.Buffers;
 using PerfTips.ServerClient.DataProviders;
 using PerfTips.ServerClient.TcpServer;
-using PerfTips.Shared;
 using PerfTips.Shared.Enums;
 using PerfTips.Shared.MessageRecords;
 using PerfTips.Shared.PackageManager;
@@ -22,13 +21,16 @@ public class AddFileCommand : IServerCommand
         var fileInfo = new FileInfo(filePath);
         node.AddBytes(fileInfo.Length);
 
-        var bytes = await File.ReadAllBytesAsync(filePath);
+        var buffer = ArrayPool<byte>.Shared.Rent((int)fileInfo.Length);
+        (await File.ReadAllBytesAsync(filePath)).CopyTo(buffer, 0);
 
         FileMessage fileMessage = new FileMessage
         {
-            PartialPath = Path.Combine(nodeName, fileRelativePath, fileInfo.Name),
-            FileData = bytes
+            PartialPath = Path.Combine(fileRelativePath, fileInfo.Name),
+            FileData = buffer
         };
+
+        ArrayPool<byte>.Shared.Return(buffer);
 
         var message = new TcpMessage
         {
@@ -36,9 +38,6 @@ public class AddFileCommand : IServerCommand
             Data = packageManager.Serializer.Serialize(fileMessage)
         };
 
-        var socket = packageManager.SendPackage(message, new (server.IpAddress, node.Port));
-
-        socket.Shutdown(SocketShutdown.Both);
-        socket.Close();
+        using var socket = await packageManager.SendPackage(message, new (server.IpAddress, node.Port));
     }
 }

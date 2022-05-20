@@ -7,7 +7,7 @@ using PerfTips.Shared.PackageManager;
 
 namespace PerfTips.ServerClient.TcpServer;
 
-public class Server : IServer
+public record Server : IServer
 {
     private readonly IMapper _mapper;
     private readonly IDataProvider _provider;
@@ -33,14 +33,7 @@ public class Server : IServer
     {
         var serverCommand = _mapper.Map<ServerCommands, IServerCommand>(command);
 
-        try
-        {
-            await serverCommand.Execute(this, _packageManager, _provider, cts);
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-        }
+        await serverCommand.Execute(this, _packageManager, _provider, cts);
     }
 
     public void AddNode(NodeInfo node)
