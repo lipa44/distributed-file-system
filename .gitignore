@@ -6,3 +6,4 @@ riderModule.iml
 /.idea
 TechLabs.sln.DotSettings.user
 .gitignore
+.DS_Store
