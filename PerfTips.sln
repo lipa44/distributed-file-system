@@ -8,7 +8,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerfTips.Shared", "Source\P
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerfTips.FilesGenerator", "Source\PerfTips.FilesGenerator\PerfTips.FilesGenerator.csproj", "{ED602C5A-D958-4954-8373-4A6AED36F574}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{D18D7897-187A-4DFD-990C-EBA4E48947B4}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source\Source", "{D18D7897-187A-4DFD-990C-EBA4E48947B4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
