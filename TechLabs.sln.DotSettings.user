@@ -6,20 +6,16 @@
 	<s:String x:Key="/Default/Environment/Hierarchy/Build/BuildTool/CustomBuildToolPath/@EntryValue">C:\Program Files\dotnet\sdk\7.0.100-preview.4.22252.9\MSBuild.dll</s:String>
 	
 	<s:Boolean x:Key="/Default/Environment/Hierarchy/Build/BuildTool/RecentBuildToolPaths/=C_003A_005CProgram_0020Files_005Cdotnet_005Csdk_005C6_002E0_002E300_005CMSBuild_002Edll/@EntryIndexedValue">True</s:Boolean>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=45a457aa_002Dec56_002D456e_002Da533_002Dc62f2533ea3f/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="AddHugeAmountOfBackupJobsAndSaveToRepository" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
-  &lt;TestAncestor&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::689C59D8-1624-4722-A321-C056AD8761F2::net6.0::Task5_MoqSystem.Program.AddHugeAmountOfBackupJobsAndSaveToRepository&lt;/TestId&gt;&#xD;
-  &lt;/TestAncestor&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=45a457aa_002Dec56_002D456e_002Da533_002Dc62f2533ea3f/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="AddHugeAmountOfBackupJobsAndSaveToRepository" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;NUnit3x::689C59D8-1624-4722-A321-C056AD8761F2::net6.0::Task5_MoqSystem.Program.AddHugeAmountOfBackupJobsAndSaveToRepository&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=5a038de8_002D3150_002D4db9_002D9933_002De4f9d473b999/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="AddHugeAmountOfBackupJobsAndSaveToRepository #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
-  &lt;TestAncestor&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::689C59D8-1624-4722-A321-C056AD8761F2::net6.0::Task5_MoqSystem.Program&lt;/TestId&gt;&#xD;
-  &lt;/TestAncestor&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=5a038de8_002D3150_002D4db9_002D9933_002De4f9d473b999/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="AddHugeAmountOfBackupJobsAndSaveToRepository #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;NUnit3x::689C59D8-1624-4722-A321-C056AD8761F2::net6.0::Task5_MoqSystem.Program&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String>
-	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=1660c3fe_002D3560_002D45d4_002Dbce8_002D5845471591b4_0023Task2_005FCSharp/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=1dbad7fa_002Dc822_002D4f6c_002Da713_002D8850ce9b7895_0023SourceGenerator/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=59356d4c_002D00ae_002D42e1_002D9c73_002Df0310c9826a8_0023Task1/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=677c77a7_002D6d96_002D47d3_002D93f3_002D2a9c27170380_0023ConsoleApp/@EntryIndexedValue">True</s:Boolean>
 	
 	
 	
@@ -35,12 +31,16 @@
 	
 	
 	
-	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=9f07c41f_002Dc22e_002D47df_002Daaf4_002D5aad2b877909_0023Task5_005FMoqSystem_005FApplication/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=a7946010_002Dba65_002D45d9_002Dbe18_002D129f5c836bca_0023Task2_005FFSharp/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=c167ca82_002D9ffa_002D4093_002Db246_002Df9a9712bfb2f_0023Task5_005FFileSystem_005FApplication/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=c8c6ddea_002D7253_002D4ea0_002Dba9b_002Db0d044385965_0023Task3_005FCSharp/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=ebfef99c_002D1014_002D4828_002Dbaf6_002D76e881518004_0023Task4_005FCSharp/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=f4a7f07e_002D56a2_002D4445_002Da652_002De3628bd4026b_0023Task3_005FFSharp/@EntryIndexedValue">True</s:Boolean>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
