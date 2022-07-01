@@ -104,33 +104,33 @@
 
 #### 5к файлов
 
-![1st_dump_5k](Docs/assets/1st_dump_5k.jpg)
+![1st_dump_5k](Docs/Images/1st_dump_5k.jpg)
 *Первый дамп с 5к файлами без оптимизаций*
 
-![2nd_dump_5k_arrayPool](Docs/assets/2nd_dump_5k_arrayPool.jpg)
+![2nd_dump_5k_arrayPool](Docs/Images/2nd_dump_5k_arrayPool.jpg)
 *Второй дамп с 5к файлами и заменой некоторых листов на ArrayPool*
 
-![3rd_dump_5k_records](Docs/assets/3rd_dump_5k_records.jpg)
+![3rd_dump_5k_records](Docs/Images/3rd_dump_5k_records.jpg)
 *Третий дамп с 5к файлов, заменой некоторых листов на ArrayPool и основных классов на readonly record struct*
 
 Как можно заметить, количество всей памяти снизилось примерно в 2 раза, при этом колитство объектов, хранящихся в LOH и SOH относительно Generation 2 выросло _(наверное это плохо)_
 
 #### 1к файлов
 
-![1st_dump_1k_some_optimizations](Docs/assets/1st_dump_1k_some_optimizations.jpg)
+![1st_dump_1k_some_optimizations](Docs/Images/1st_dump_1k_some_optimizations.jpg)
 *Первый дамп после _каких-то_ оптимизаций*
 
-![2nd_dump_1k_stringBuilder](Docs/assets/2nd_dump_1k_stringBuilder.jpg)
+![2nd_dump_1k_stringBuilder](Docs/Images/2nd_dump_1k_stringBuilder.jpg)
 *Второй дамп после _каких-то_ оптимизаций и замены string.Concat на stringBuilder*
 
 Тут мы видим незначитеьное уменьшение аллоцированной памяти (но не факт что оно связано с добавлением стрингбилдера)
 
 ### Несколько балансировок нод
 
-![1st_multy_balance_withoup_optimizations](Docs/assets/1st_multy_balance_withoup_optimizations.jpg)
+![1st_multy_balance_withoup_optimizations](Docs/Images/1st_multy_balance_withoup_optimizations.jpg)
 *Первый дамп с несколькими запусками балансировок без оптимизаций*
 
-![2nd_multy_balance_with_optimizations](Docs/assets/2nd_multy_balance_with_optimizations.jpg)
+![2nd_multy_balance_with_optimizations](Docs/Images/2nd_multy_balance_with_optimizations.jpg)
 *Второй дамп с несколькими запусками балансировок после _всех_ оптимизаций*
 
 Можно заметить, что, как и было сказано ранее, общее количество памяти (согласно dotTrace) уменьшилось примерно в два раза, а также значительно уменьшился размер SOH и LOH (наверное, это хорошо)
