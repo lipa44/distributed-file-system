@@ -1,12 +1,14 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerfTips.NodeClient", "PerfTips.NodeClient\PerfTips.NodeClient.csproj", "{935948C0-A7BE-4773-8DF4-CD03D44C3D4B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerfTips.NodeClient", "Source\PerfTips.NodeClient\PerfTips.NodeClient.csproj", "{935948C0-A7BE-4773-8DF4-CD03D44C3D4B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerfTips.ServerClient", "PerfTips.ServerClient\PerfTips.ServerClient.csproj", "{73A7B6B4-FBB6-41A1-ABAE-652AA492C36D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerfTips.ServerClient", "Source\PerfTips.ServerClient\PerfTips.ServerClient.csproj", "{73A7B6B4-FBB6-41A1-ABAE-652AA492C36D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerfTips.Shared", "PerfTips.Shared\PerfTips.Shared.csproj", "{85F53E71-B879-424A-9369-F68D2A8AF78B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerfTips.Shared", "Source\PerfTips.Shared\PerfTips.Shared.csproj", "{85F53E71-B879-424A-9369-F68D2A8AF78B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerfTips.FilesGenerator", "PerfTips.FilesGenerator\PerfTips.FilesGenerator.csproj", "{ED602C5A-D958-4954-8373-4A6AED36F574}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerfTips.FilesGenerator", "Source\PerfTips.FilesGenerator\PerfTips.FilesGenerator.csproj", "{ED602C5A-D958-4954-8373-4A6AED36F574}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{D18D7897-187A-4DFD-990C-EBA4E48947B4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -14,11 +16,11 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{935948C0-A7BE-4773-8DF4-CD03D44C3D4B} = {589A916E-279C-4E20-BA0F-E6E738736A41}
-		{73A7B6B4-FBB6-41A1-ABAE-652AA492C36D} = {589A916E-279C-4E20-BA0F-E6E738736A41}
-		{85F53E71-B879-424A-9369-F68D2A8AF78B} = {589A916E-279C-4E20-BA0F-E6E738736A41}
-		{ED602C5A-D958-4954-8373-4A6AED36F574} = {589A916E-279C-4E20-BA0F-E6E738736A41}
 		{4A1A1450-5EDE-4224-AFC3-DB1775F8555F} = {589A916E-279C-4E20-BA0F-E6E738736A41}
+		{ED602C5A-D958-4954-8373-4A6AED36F574} = {D18D7897-187A-4DFD-990C-EBA4E48947B4}
+		{935948C0-A7BE-4773-8DF4-CD03D44C3D4B} = {D18D7897-187A-4DFD-990C-EBA4E48947B4}
+		{73A7B6B4-FBB6-41A1-ABAE-652AA492C36D} = {D18D7897-187A-4DFD-990C-EBA4E48947B4}
+		{85F53E71-B879-424A-9369-F68D2A8AF78B} = {D18D7897-187A-4DFD-990C-EBA4E48947B4}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{935948C0-A7BE-4773-8DF4-CD03D44C3D4B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
