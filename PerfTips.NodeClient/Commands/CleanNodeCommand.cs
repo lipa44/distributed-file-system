@@ -1,6 +1,5 @@
 
 using System.Buffers;
-using System.Net;
 using System.Net.Sockets;
 using PerfTips.NodeClient.TcpNode;
 using PerfTips.Shared.MessageRecords;
